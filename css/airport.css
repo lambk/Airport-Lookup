@@ -1,0 +1,54 @@
+body {
+  background: #aaa;
+}
+
+.header {
+  background: #292c33;
+  height: 120px;
+}
+
+.horiz-split {
+  background: #292c33;
+  border-top: 1px solid #777;
+  border-bottom: 1px solid #777;
+  height: 3px;
+}
+
+.vert-split {
+  background: #292c33;
+  border-left: 1px solid #777;
+  border-right: 1px solid #777;
+  width: 3px;
+}
+
+h1 {
+  line-height: 120px;
+}
+
+.flex {
+  height: calc(100% - (120px + 10px + 40px));
+}
+
+.info-container {
+  background: #292c33;
+  width: 34%;
+  border-radius: 4px;
+}
+
+.map-container {
+  background: #343439;
+  height: auto;
+  width: 66%;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+#google-map {
+  width: 100%;
+  height: 100%;
+}
+
+.footer {
+  background: #343439;
+  height: 40px;
+}

@@ -1,11 +1,11 @@
-$(function () {
-  $('#icaoTxt').on('change keyup', function () {
+$(function() {
+  $('#icaoTxt').on('change keyup', function() {
     if ($(this).val().length > 0) {
       $('#icaoTT').addClass('invisible');
     }
   });
 
-  $('#searchBtn').click(function () {
+  $('#searchBtn').click(function() {
     var data = {
       icao: $('#icaoTxt').val()
     }
