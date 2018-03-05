@@ -11,22 +11,26 @@
     <script type="text/javascript" src="scripts/jquery-3.3.1.min.js"></script>
   </head>
   <body>
-    <div class="header">
-      <h1 id="title">placeholder</h1>
-    </div>
-    <div class="horiz-split"></div>
-    <div class="flex">
-      <div class="info-container">
-
+    <div class="base">
+      <div class="header container-dark">
+        <h1 id="title">placeholder</h1>
       </div>
-      <div class="vert-split"></div>
-      <div class="map-container">
-        <iframe id="google-map" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA779zHhxt0P5GwSKTYkczffJf5aTdUqFU&q=Auckland,Airport">
-        </iframe>
+      <div class="flex">
+        <div class="info-container container-dark">
+          <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+            <li>Item 4</li>
+          </ul>
+        </div>
+        <div class="map-container container-light">
+          <iframe id="google-map" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA779zHhxt0P5GwSKTYkczffJf5aTdUqFU&q=Auckland,Airport">
+          </iframe>
+        </div>
       </div>
-    </div>
-    <div class="horiz-split"></div>
-    <div class="footer">
+      <div class="footer container-dark">
+      </div>
     </div>
   </body>
 </html>
