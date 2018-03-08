@@ -3,59 +3,62 @@ body {
   background-size: cover;
 }
 
-.base {
+.main-container {
+  width: 55%;
   height: 100%;
-  width: 90%;
-  margin: auto;
+  margin: 0 auto;
+  background: linear-gradient(#43484F, #404750);
+  box-shadow: 0 0 50px #223;
 }
 
-.container-dark {
-  background-color: rgba(60,60,60,0.3);
-}
-
-.container-light {
-  background-color: rgba(80,80,80,0.3);
-}
-
-.header {
-  height: 120px;
-  margin-bottom: 5px;
-  border-radius: 7px;
-  box-shadow: 0 0 10px #222;
-}
-
-h1 {
+#title {
   line-height: 120px;
+  color: white;
+  font-family: Monitorica-Rg;
+  font-size: 35px;
+  border: 1px solid black;
+  border-top: 0;
+}
+
+#title:before {
+  content: '';
+  background-image: url('../resources/airport.png');
+  display: inline-block;
+  width: 43px;
+  height: 50px;
+  background-size: 43px 50px;
+  vertical-align: -8px;
+  margin-right: 20px;
+}
+
+.dark {
+  background: linear-gradient(#33383F, #23282F);
 }
 
 .flex {
-  height: calc(100% - (120px + 10px + 40px));
+  padding: 25px 45px 25px 25px;
+  justify-content: space-between;
 }
 
 .info-container {
-  width: 50%;
-  border-radius: 7px;
-  margin-right: 3px;
-  box-shadow: 0 0 10px #222;
+  margin-right: 35px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: #53585F;
+  width: 45%;
 }
 
 .map-container {
-  height: auto;
-  width: 50%;
-  padding: 10px;
-  border-radius: 7px;
-  margin-left: 3px;
-  box-shadow: 0 0 10px #222;
+  width: calc(50% - 35px);
+  height: 300px;
+  padding: 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: #155b5d;
 }
 
 #google-map {
   width: 100%;
   height: 100%;
-}
-
-.footer {
-  margin-top: 5px;
-  height: 40px;
-  border-radius: 7px;
-  box-shadow: 0 0 10px #222;
+  box-shadow: 0 0 15px black;
 }

@@ -20,8 +20,18 @@ body {
 h1 {
   margin-top: 0;
   font-size: 45px;
+}
+
+span, p, h1, h3 {
   font-family: Monitorica-Rg;
+}
+
+h1, h3 {
   color: white;
+}
+
+span, p {
+  color: #ccc;
 }
 
 .invisible {

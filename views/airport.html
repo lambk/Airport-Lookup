@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Airport</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/resources/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="/css/master.css">
-    <link rel="stylesheet" type="text/css" href="/css/airport.css">
-    <script type="text/javascript" src="scripts/jquery-3.3.1.min.js"></script>
-  </head>
-  <body>
-    <div class="base">
-      <div class="header container-dark">
-        <h1 id="title">placeholder</h1>
+
+<head>
+  <meta charset="utf-8">
+  <title>Airport</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/resources/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="/css/master.css">
+  <link rel="stylesheet" type="text/css" href="/css/airport.css">
+  <script type="text/javascript" src="/scripts/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="/scripts/airport.js"></script>
+</head>
+
+<body>
+  <div class="main-container">
+    <h1 id="title" class="dark">NZAA - Auckland International</h1>
+    <div class="flex">
+      <div class="info-container">
+        <p>Lorem ipsum dolor</p>
       </div>
-      <div class="flex">
-        <div class="info-container container-dark">
-          <ul>
-            <li>Item 1</li>
-            <li>Item 2</li>
-            <li>Item 3</li>
-            <li>Item 4</li>
-          </ul>
-        </div>
-        <div class="map-container container-light">
-          <iframe id="google-map" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA779zHhxt0P5GwSKTYkczffJf5aTdUqFU&q=Auckland,Airport">
-          </iframe>
-        </div>
+      <div class="map-container dark">
+        <iframe id="google-map" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyA779zHhxt0P5GwSKTYkczffJf5aTdUqFU&center=-37.010516,174.787814&zoom=14&maptype=satellite">
+
+        </iframe>
       </div>
-      <div class="footer container-dark">
-      </div>
-    </div>
-  </body>
+  </div>
+</body>
+
 </html>
