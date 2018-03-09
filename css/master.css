@@ -42,3 +42,33 @@ span, p {
   display: flex;
   justify-content: center;
 }
+
+.button-main {
+  font-size: 18px;
+}
+
+input:focus {
+  outline: none;
+}
+
+.button {
+  font-family: Monitorica-Rg;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: 0;
+  background: #55bbdd;
+  color: white;
+  transition: all 0.1s linear;
+}
+
+.button:hover {
+  transform: scaleX(1.1);
+  background: #55ccee;
+}
+
+.button-main:hover {
+  font-size: 20px;
+  transform: scale(1.1);
+}

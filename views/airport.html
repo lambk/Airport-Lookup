@@ -14,17 +14,34 @@
 </head>
 
 <body>
-  <div class="main-container">
-    <h1 id="title" class="dark">NZAA - Auckland International</h1>
-    <div class="flex">
-      <div class="info-container">
-        <p>Lorem ipsum dolor</p>
+  <div class="page">
+    <h1 id="title" class="dark">Title</h1>
+    <input type="button" id="fetch" class="button" value="Fetch">
+    <div class="main-content">
+      <div class="flex space-under">
+        <div class="info info-side container">
+          <h3>Airport Information</h3>
+          Latitude: <span id="latitude"></span><br>
+          Longitude: <span id="longitude"></span><br>
+          <br>
+          City: <span id="city"></span><br>
+          Country: <span id="country"></span><br>
+          Timezone: <span id="timezone"></span><br>
+          <br>
+          Status: <span id="status"></span>
+        </div>
+        <div class="map-container container">
+          <iframe id="google-map" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyA779zHhxt0P5GwSKTYkczffJf5aTdUqFU&center=-37.010516,174.787814&zoom=14&maptype=satellite">
+          </iframe>
+          <input type="button" class="button" value="Recenter">
+        </div>
       </div>
-      <div class="map-container dark">
-        <iframe id="google-map" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyA779zHhxt0P5GwSKTYkczffJf5aTdUqFU&center=-37.010516,174.787814&zoom=14&maptype=satellite">
 
-        </iframe>
+      <div class="info container">
+        <h3>METAR</h3>
+        <span id="metar"></span>
       </div>
+    </div>
   </div>
 </body>
 

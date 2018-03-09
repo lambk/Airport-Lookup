@@ -1,7 +1,12 @@
 $(function () {
   const icao = window.location.pathname.slice(9, 14).toUpperCase();
+  $('#fetch').click(function() {
+    getAirportData(icao);
+    getMetar(icao);
+  })
   //getAirportData(icao);
   //getMetar(icao);
+  //-37.010516,174.787814
 
   function getAirportData(icao) {
     $.ajax({
@@ -35,7 +40,12 @@ $(function () {
     var airport = data.data[0];
     console.log(airport);
     $('#title').html(airport.icao + ' - ' + airport.name);
-    $('#airportData').html(data);
+    $('#latitude').html(airport.latitude.decimal);
+    $('#longitude').html(airport.longitude.decimal);
+    $('#city').html(airport.city);
+    $('#country').html(airport.country);
+    $('#timezone').html(airport.timezone.tzid);
+    $('#status').html(airport.status);
   }
 
   function loadMetar(data) {

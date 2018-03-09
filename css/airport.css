@@ -3,7 +3,7 @@ body {
   background-size: cover;
 }
 
-.main-container {
+.page {
   width: 55%;
   height: 100%;
   margin: 0 auto;
@@ -31,34 +31,63 @@ body {
   margin-right: 20px;
 }
 
+h3 {
+  font-size: 27px;
+  margin-top: 10px;
+}
+
 .dark {
   background: linear-gradient(#33383F, #23282F);
 }
 
 .flex {
-  padding: 25px 45px 25px 25px;
   justify-content: space-between;
 }
 
-.info-container {
-  margin-right: 35px;
+.space-under {
+  margin-bottom: 35px;
+}
+
+.main-content {
+  padding: 25px 45px 25px 25px;
+}
+
+.container {
   border: 1px solid black;
   border-radius: 5px;
+}
+
+.info {
+  text-align: left;
+  margin-right: 35px;
   background: #53585F;
-  width: 45%;
+  padding:  15px 20px;
+  width: 100%;
+  box-sizing: border-box;
+
+  font-family: Monitorica-Rg;
+  font-size: 20px;
+  color: white;
+}
+
+.info > span {
+  color: #aaa;
+  font-size: 20px;
+}
+
+.info-side {
+  width: 40%;
 }
 
 .map-container {
-  width: calc(50% - 35px);
-  height: 300px;
+  width: calc(60% - 35px);
   padding: 15px;
-  border: 1px solid black;
-  border-radius: 5px;
   background: #155b5d;
 }
 
 #google-map {
   width: 100%;
-  height: 100%;
+  height: 300px;
+  margin-bottom: 10px;
   box-shadow: 0 0 15px black;
 }

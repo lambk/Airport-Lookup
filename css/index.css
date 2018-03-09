@@ -31,10 +31,6 @@
   }
 }
 
-input:focus {
-  outline: none;
-}
-
 ::-webkit-input-placeholder {
   /* WebKit browsers */
   text-transform: none;
@@ -51,26 +47,6 @@ input:focus {
   border: 0;
   padding: 0 15px;
   text-transform: uppercase;
-}
-
-.main-button {
-  font-family: Monitorica-Rg;
-  font-size: 18px;
-  font-weight: bold;
-  height: 40px;
-  width: 80px;
-  padding: 0;
-  border-radius: 10px;
-  border: 0;
-  background: #55bbdd;
-  color: white;
-  transition: all 0.1s linear;
-}
-
-.main-button:hover {
-  font-size: 20px;
-  transform: scale(1.1);
-  background: #55ccee;
 }
 
 .tooltip {
