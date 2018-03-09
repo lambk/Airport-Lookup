@@ -5,19 +5,21 @@ body {
 
 .page {
   width: 55%;
-  height: 100%;
+  min-height: 100%;
   margin: 0 auto;
   background: linear-gradient(#43484F, #404750);
   box-shadow: 0 0 50px #223;
 }
 
 #title {
-  line-height: 120px;
+  padding: 42px 0;
   color: white;
   font-family: Monitorica-Rg;
   font-size: 35px;
   border: 1px solid black;
   border-top: 0;
+  margin-bottom: 0;
+  text-shadow: 0 0 1px white;
 }
 
 #title:before {
@@ -31,9 +33,20 @@ body {
   margin-right: 20px;
 }
 
+hr {
+  margin: 0 0 20px 0;
+  padding: 0;
+  height: 2px;
+  width: 240px;
+  max-width: 100%;
+  background: #55bbdd;
+  border: 0;
+}
+
 h3 {
   font-size: 27px;
   margin-top: 10px;
+  margin-bottom: 0;
 }
 
 .dark {
@@ -49,7 +62,8 @@ h3 {
 }
 
 .main-content {
-  padding: 25px 45px 25px 25px;
+  padding: 25px;
+  border-top: 2px solid #55bbdd;
 }
 
 .container {
@@ -75,6 +89,10 @@ h3 {
   font-size: 20px;
 }
 
+.field-seperate {
+  margin-left: 5px;
+}
+
 .info-side {
   width: 40%;
 }
@@ -90,4 +108,32 @@ h3 {
   height: 300px;
   margin-bottom: 10px;
   box-shadow: 0 0 15px black;
+}
+
+@media only screen and (max-width: 1024px) {
+  .page {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .page {
+    width: 95%;
+  }
+
+  .flex {
+    flex-wrap: wrap;
+  }
+
+  .info-side {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 35px;
+    box-sizing: border-box;
+  }
+
+  .map-container {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
