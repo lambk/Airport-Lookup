@@ -1,0 +1,27 @@
+{
+  "name": "airport-lookup",
+  "version": "1.0.0",
+  "description": "A web app to fetch airport information & weather from CheckWx",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "jade": "^1.11.0",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lambk/Airport-Lookup.git"
+  },
+  "author": "Kyle Lamb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lambk/Airport-Lookup/issues"
+  },
+  "homepage": "https://github.com/lambk/Airport-Lookup#readme"
+}
