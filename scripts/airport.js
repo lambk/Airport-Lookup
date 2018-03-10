@@ -11,9 +11,13 @@ function getAirportData(icao) {
     url: '/api/airport/' + icao,
     contentType: 'application/json',
     success: function(data) {
-      let airport = data.data[0];
-      loadAirportData(airport);
-      loadMap(airport.latitude.decimal, airport.longitude.decimal);
+      if (data.data[0].icao != undefined) {
+        let airport = data.data[0];
+        loadAirportData(airport);
+        loadMap(airport.latitude.decimal, airport.longitude.decimal);
+      } else {
+        window.location = '/invalid-airport';
+      }
     },
     error: function(data) {
       console.log('Error with Airport Data call');

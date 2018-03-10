@@ -59,6 +59,10 @@ app.get('/airport/:icao', function(req, res) {
   res.sendFile(__dirname + '/views/airport.html');
 });
 
+app.get('/invalid-airport', function(req, res) {
+  res.sendFile(__dirname + '/views/invalid.html');
+})
+
 app.listen(port, function() {
   console.log('App running (port ' + port + ')');
 });
