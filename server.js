@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.json());
 const request = require('request');
 
+let port = process.env.PORT || 3000;
+
 app.use(express.static(__dirname));
 
 app.get('/', function(req, res) {
@@ -57,6 +59,6 @@ app.get('/airport/:icao', function(req, res) {
   res.sendFile(__dirname + '/views/airport.html');
 });
 
-app.listen(3000, function() {
-  console.log('App running (port 3000)');
+app.listen(port, function() {
+  console.log('App running (port ' + port + ')');
 });
