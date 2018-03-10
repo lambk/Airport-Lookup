@@ -17,6 +17,16 @@ body {
   height: 100%;
 }
 
+.background-plane {
+  background-image: url('../resources/plane.jpeg');
+  background-size: cover;
+}
+
+.background-sky {
+  background-image: url('../resources/sky.jpeg');
+  background-size: cover;
+}
+
 h1 {
   margin-top: 0;
   font-size: 45px;

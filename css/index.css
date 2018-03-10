@@ -1,16 +1,3 @@
-.main-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-}
-
-.main-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .control-container {
   position: absolute;
   left: 50%;
@@ -71,10 +58,12 @@
   font-family: Monitorica-Rg;
   font-size: 14px;
   font-weight: bold;
-  background: #d55;
-  border-radius: 6px;
-  padding: 4px 7px;
   color: #eee;
+
+  padding: 4px 7px;
+  border-radius: 6px;
+  border: 1px solid #d55;
+  background: #d55;
 }
 
 .tooltip-container:before {
