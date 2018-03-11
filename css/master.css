@@ -27,6 +27,11 @@ body {
   background-size: cover;
 }
 
+.background-engine {
+  background-image: url('../resources/engine.jpg');
+  background-size: cover;
+}
+
 h1 {
   margin-top: 0;
   font-size: 45px;
@@ -72,4 +77,12 @@ input:focus {
 .button:hover {
   transform: scaleX(1.1);
   background: #55ccee;
+}
+
+.btn-primary {
+  font-size: 18px;
+}
+
+.btn-primary:hover {
+  transform: scale(1.1);
 }

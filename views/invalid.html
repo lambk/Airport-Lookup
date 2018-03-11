@@ -3,8 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title>Airport Lookup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/resources/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/resources/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/css/master.css">
+    <link rel="stylesheet" type="text/css" href="/css/invalid.css">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/scripts/invalid.js"></script>
   </head>
-  <body>
-    Invalid Airport
+  <body class="background-engine">
+    <div class="center">
+      <h1>Oops! This doesn't seem to be a valid airport ICAO.</h1>
+      <input id="returnBtn" class="button btn-primary" type="button" value="Return">
+    </div>
   </body>
 </html>
