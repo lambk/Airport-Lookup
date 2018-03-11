@@ -24,7 +24,6 @@
 }
 
 .main-textbox {
-  font-family: Monitorica-Rg;
   font-size: 15px;
   font-weight: bold;
   height: 40px;
@@ -55,7 +54,6 @@
 }
 
 .tooltip-container {
-  font-family: Monitorica-Rg;
   font-size: 14px;
   font-weight: bold;
   color: #eee;
