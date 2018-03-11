@@ -20,16 +20,19 @@ body {
 .background-plane {
   background-image: url('../resources/plane.jpeg');
   background-size: cover;
+  background-position: center;
 }
 
 .background-sky {
   background-image: url('../resources/sky.jpeg');
   background-size: cover;
+  background-position: center;
 }
 
 .background-engine {
   background-image: url('../resources/engine.jpg');
   background-size: cover;
+  background-position: center;
 }
 
 h1 {
