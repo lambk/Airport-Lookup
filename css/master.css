@@ -81,6 +81,7 @@ input:focus {
 
 .btn-primary {
   font-size: 18px;
+  height: 40px;
 }
 
 .btn-primary:hover {
