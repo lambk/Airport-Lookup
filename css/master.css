@@ -53,10 +53,6 @@ span, p {
   justify-content: center;
 }
 
-.button-main {
-  font-size: 18px;
-}
-
 input:focus {
   outline: none;
 }
@@ -76,9 +72,4 @@ input:focus {
 .button:hover {
   transform: scaleX(1.1);
   background: #55ccee;
-}
-
-.button-main:hover {
-  font-size: 20px;
-  transform: scale(1.1);
 }

@@ -36,6 +36,14 @@
   text-transform: uppercase;
 }
 
+#searchBtn {
+  font-size: 18px;
+}
+
+#searchBtn:hover {
+  transform: scale(1.1);
+}
+
 .tooltip {
   z-index: 2;
   left: 20px;
