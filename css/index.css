@@ -77,11 +77,20 @@
   margin-right: 5px;
 }
 
-.subtext {
+.subtext-left {
   font-size: 12px;
   opacity: 0.6;
   position: absolute;
   margin: 3px;
   left: 0;
+  bottom: 0;
+}
+
+.subtext-right {
+  font-size: 12px;
+  opacity: 0.6;
+  position: absolute;
+  margin: 3px;
+  right: 0;
   bottom: 0;
 }
