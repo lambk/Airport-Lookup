@@ -11,6 +11,11 @@ $(function() {
     if (event.keyCode == 13) {
       search();
     }
+  });
+
+  //Hides the tooltip when clicked
+  $('.tooltip').click(function(event) {
+    $(this).addClass('invisible');
   })
 
   //Call the search function when the search button is clicked
@@ -26,6 +31,6 @@ function search() {
   if (icao.length == 0) {
     $('#icaoTT').removeClass('invisible');
   } else {
-    window.location = '/airport/' + icao;
+    window.location = '/airport/' + icao.toLowerCase();
   }
 }

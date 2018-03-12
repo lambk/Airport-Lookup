@@ -4,7 +4,6 @@ $(function () {
   getMetar(icao);
 });
 
-
 function getAirportData(icao) {
   $.ajax({
     type: 'GET',

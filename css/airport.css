@@ -47,7 +47,34 @@ h3 {
   background: linear-gradient(#33383F, #23282F);
 }
 
-.flex {
+.search-container {
+  margin-bottom: 25px;
+}
+
+.search-container > div {
+  position: relative;
+  margin-right: 10px;
+  width: 70%;
+}
+
+.sub-textbox {
+  background: #eee;
+  font-size: 15px;
+  font-weight: bold;
+  height: 30px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 0;
+  padding: 0 15px;
+  text-transform: uppercase;
+}
+
+.tooltip {
+  top: 25px;
+}
+
+.flex-between {
   justify-content: space-between;
 }
 
@@ -56,7 +83,7 @@ h3 {
 }
 
 .main-content {
-  padding: 25px;
+  padding: 15px 25px 25px 25px;
   border-top: 2px solid #55bbdd;
 }
 

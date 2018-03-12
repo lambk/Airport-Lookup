@@ -93,3 +93,59 @@ input:focus {
 .btn-primary:hover {
   transform: scale(1.1);
 }
+
+.tooltip {
+  z-index: 2;
+  left: 20px;
+  top: 35px;
+  position: absolute;
+  text-align: left;
+  transition: all 0.15s linear;
+  cursor: default;
+}
+
+.tooltip:not(.invisible) {
+  cursor: pointer;
+}
+
+.tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #d55;
+  margin-left: 15px;
+}
+
+.tooltip-container {
+  font-size: 14px;
+  font-weight: bold;
+  color: #eee;
+
+  padding: 4px 7px;
+  border-radius: 6px;
+  border: 1px solid #d55;
+  background: #d55;
+}
+
+.tooltip-container:before {
+  content: '';
+  background-image: url('../resources/error-icon.png');
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-size: 14px 14px;
+  vertical-align: -15%;
+  margin-right: 5px;
+}
+
+.tooltip-container:after {
+  content: 'x';
+  margin-left: 5px;
+  color: #933;
+}
+
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  text-transform: none;
+}
