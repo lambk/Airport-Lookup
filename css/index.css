@@ -1,49 +1,28 @@
-.control-container {
+body {
+  background-image: url('../resources/plane.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
+.center {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
+  width: 60%;
 }
 
-.flex>div {
-  margin-right: 10px;
-  width: 40%;
-  position: relative;
+.footnote {
+  font-size: 12px;
+  color: white;
+  opacity: 0.6;
+  position: absolute;
+  bottom: 0;
+  margin: 3px;
 }
 
 @media only screen and (max-width: 768px) {
-  .flex>div {
-    width: 70%;
+  .center {
+    width: 100%;
   }
-}
-
-.main-textbox {
-  font-size: 15px;
-  font-weight: bold;
-  height: 40px;
-  width: 100%;
-  box-sizing: border-box;
-  border-radius: 10px;
-  border: 0;
-  padding: 0 15px;
-  text-transform: uppercase;
-}
-
-.subtext-left {
-  font-size: 12px;
-  opacity: 0.6;
-  position: absolute;
-  margin: 3px;
-  left: 0;
-  bottom: 0;
-}
-
-.subtext-right {
-  font-size: 12px;
-  opacity: 0.6;
-  position: absolute;
-  margin: 3px;
-  right: 0;
-  bottom: 0;
 }

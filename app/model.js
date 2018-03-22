@@ -1,33 +1,52 @@
 const request = require('request');
 
-exports.loadPage = function(file, res) {
-  res.sendFile(file);
-};
-
-exports.callAirportApi = function(icao, options, res) {
+exports.callAirportApi = function(icao, done, failure) {
   console.log('Fetching Airport Data for ' + icao + ' from CheckWx');
+  let options = {
+    url: 'https://api.checkwx.com/station/' + icao,
+    headers: {
+      'X-API-Key': 'aaf9e7d57dac55d7bb3d539fd7'
+    },
+    'Content-Type': 'application/json'
+  }
   request(options, function(err, response, body) {
     console.log('Response code: ' + response.statusCode);
     if (response.statusCode == 200) {
-      var airport_data = JSON.parse(response.body);
-      res.send(airport_data);
+      try {
+        let data = JSON.parse(response.body);
+        done(data);
+      } catch(e) {
+        console.log(e);
+        failure(500, 'Internal server error');
+      }
     } else {
       console.log(err);
-      res.send({'ERROR' : err});
+      failure(500, 'Internal server error');
     }
   });
 }
 
-exports.callMetarApi = function(icao, options, res) {
+exports.callMetarApi = function(icao, done, failure) {
   console.log('Fetching Metar for ' + icao + ' from CheckWx');
+  let options = {
+    url: 'https://api.checkwx.com/metar/' + icao,
+    headers: {
+      'X-API-Key': 'aaf9e7d57dac55d7bb3d539fd7'
+    }
+  }
   request(options, function(err, response, body) {
     console.log('Response code: ' + response.statusCode);
     if (response.statusCode == 200) {
-      var metar_data = JSON.parse(response.body);
-      res.send(metar_data);
+      try {
+        let data = JSON.parse(response.body);
+        done(data);
+      } catch(e) {
+        console.log(e);
+        failure(500, 'Internal server error');
+      }
     } else {
       console.log(err);
-      res.send({'ERROR' : err});
+      failure(500, 'Internal server error');
     }
   });
 }

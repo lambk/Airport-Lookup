@@ -11,10 +11,4 @@ module.exports = function(app, root) {
 
   app.route('/invalid-airport')
     .get(controller.loadInvalidPage);
-
-  app.route('/api/airport/:icao')
-    .get(controller.fetchAirportData);
-
-  app.route('/api/metar/:icao')
-    .get(controller.fetchMetarData);
 }

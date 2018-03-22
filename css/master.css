@@ -7,7 +7,11 @@
   font-family: Monitorica-Rg, Helvetica;
 }
 
-html {
+h1,h2,h3,span,p {
+  color: white;
+}
+
+html, body {
   width: 100%;
   height: 100%;
 }
@@ -16,23 +20,9 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
-  width: 100%;
-  height: 100%;
 }
 
-.background-plane {
-  background-image: url('../resources/plane.jpeg');
-  background-size: cover;
-  background-position: center;
-}
-
-.background-sky {
-  background-image: url('../resources/sky.jpeg');
-  background-size: cover;
-  background-position: center;
-}
-
-.background-engine {
+.background-engine { //todo remove
   background-image: url('../resources/engine.jpg');
   background-size: cover;
   background-position: center;
@@ -43,23 +33,11 @@ h1 {
   font-size: 45px;
 }
 
-span, p, h1, h3 {
-  font-family: Monitorica-Rg, Helvetica;
-}
-
-h1, h3 {
-  color: white;
-}
-
-span, p {
-  color: #ccc;
-}
-
 .invisible {
   opacity: 0;
 }
 
-.flex {
+.flex { //todo remove
   display: flex;
   justify-content: center;
 }
@@ -72,6 +50,7 @@ input:focus {
   font-family: Monitorica-Rg, Helvetica;
   font-size: 15px;
   font-weight: bold;
+  min-height: 30px;
   padding: 5px 10px;
   border-radius: 10px;
   border: 0;
@@ -92,60 +71,4 @@ input:focus {
 
 .btn-primary:hover {
   transform: scale(1.1);
-}
-
-.tooltip {
-  z-index: 2;
-  left: 20px;
-  top: 35px;
-  position: absolute;
-  text-align: left;
-  transition: all 0.15s linear;
-  cursor: default;
-}
-
-.tooltip:not(.invisible) {
-  cursor: pointer;
-}
-
-.tooltip-arrow {
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #d55;
-  margin-left: 15px;
-}
-
-.tooltip-container {
-  font-size: 14px;
-  font-weight: bold;
-  color: #eee;
-
-  padding: 4px 7px;
-  border-radius: 6px;
-  border: 1px solid #d55;
-  background: #d55;
-}
-
-.tooltip-container:before {
-  content: '';
-  background-image: url('../resources/error-icon.png');
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  background-size: 14px 14px;
-  vertical-align: -15%;
-  margin-right: 5px;
-}
-
-.tooltip-container:after {
-  content: 'x';
-  margin-left: 5px;
-  color: #933;
-}
-
-::-webkit-input-placeholder {
-  /* WebKit browsers */
-  text-transform: none;
 }

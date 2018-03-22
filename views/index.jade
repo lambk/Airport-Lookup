@@ -1,0 +1,23 @@
+html
+  head
+    title Airport Lookup
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(rel="shortcut icon" href="/resources/favicon.ico" type="image/x-icon")
+    link(rel="icon" href="/resources/favicon.ico" type="image/x-icon")
+    link(rel="stylesheet" type="text/css" href="/css/master.css")
+    link(rel="stylesheet" type="text/css" href="/css/search.css")
+    link(rel="stylesheet" type="text/css" href="/css/index.css")
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous")
+    script(type="text/javascript" src="/scripts/search.js")
+  body
+    div.center
+      h1 Airport Lookup
+      div.textbox-container
+        input#icaoTxt.main-textbox(type="text" placeholder="Enter Airport ICAO..")
+        div#icaoTT.tooltip.invisible
+          div.tooltip-arrow
+          span.tooltip-container Field Required before searching!
+      input#searchBtn.button.btn-primary(type="button" value="Search")
+    span.footnote(style="left: 0") Kyle Lamb 2018
+    span.footnote(style="right: 0") All airport & weather information sourced from the CheckWX API
