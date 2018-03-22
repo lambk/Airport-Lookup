@@ -1,6 +1,6 @@
 const request = require('request');
 
-exports.callAirportApi = function(icao, done, failure) {
+exports.callAirportApi = function(icao, done, failure, redirect) {
   console.log('Fetching Airport Data for ' + icao + ' from CheckWx');
   let options = {
     url: 'https://api.checkwx.com/station/' + icao,
@@ -14,6 +14,7 @@ exports.callAirportApi = function(icao, done, failure) {
     if (response.statusCode == 200) {
       try {
         let data = JSON.parse(response.body);
+        if (data.data[0].icao == undefined) return redirect();
         done(data);
       } catch(e) {
         console.log(e);
@@ -26,7 +27,7 @@ exports.callAirportApi = function(icao, done, failure) {
   });
 }
 
-exports.callMetarApi = function(icao, done, failure) {
+exports.callMetarApi = function(icao, done, failure, redirect) {
   console.log('Fetching Metar for ' + icao + ' from CheckWx');
   let options = {
     url: 'https://api.checkwx.com/metar/' + icao,
@@ -39,6 +40,7 @@ exports.callMetarApi = function(icao, done, failure) {
     if (response.statusCode == 200) {
       try {
         let data = JSON.parse(response.body);
+        if (data.data[0].endsWith('Invalid Station ICAO')) return redirect();
         done(data);
       } catch(e) {
         console.log(e);

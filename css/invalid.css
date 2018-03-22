@@ -1,3 +1,9 @@
+body {
+  background-image: url('../resources/engine.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
 .center {
   position: absolute;
   left: 50%;
