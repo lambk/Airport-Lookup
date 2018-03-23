@@ -5,7 +5,7 @@ exports.callAirportApi = function(icao, done, failure, redirect) {
   let options = {
     url: 'https://api.checkwx.com/station/' + icao,
     headers: {
-      'X-API-Key': 'aaf9e7d57dac55d7bb3d539fd7'
+      'X-API-Key': process.env.CWX_Key
     },
     'Content-Type': 'application/json'
   }
@@ -32,7 +32,7 @@ exports.callMetarApi = function(icao, done, failure, redirect) {
   let options = {
     url: 'https://api.checkwx.com/metar/' + icao,
     headers: {
-      'X-API-Key': 'aaf9e7d57dac55d7bb3d539fd7'
+      'X-API-Key': process.env.CWX_Key
     }
   }
   request(options, function(err, response, body) {
