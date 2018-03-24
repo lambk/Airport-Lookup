@@ -138,6 +138,10 @@ span, p {
     width: 95%;
   }
 
+  .search-container {
+    width: 100%;
+  }
+
   .split-containers {
     flex-wrap: wrap;
   }
