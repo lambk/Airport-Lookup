@@ -96,7 +96,7 @@ h3 {
 
 .split-containers {
   display: flex;
-  justify-content: flex-between;
+  justify-content: space-between;
   margin-bottom: 25px;
 }
 
@@ -136,6 +136,10 @@ span, p {
 @media only screen and (max-width: 900px) {
   .page {
     width: 95%;
+  }
+
+  .split-containers {
+    flex-wrap: wrap;
   }
 
   .info-side {
