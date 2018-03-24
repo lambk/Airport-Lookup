@@ -5,7 +5,7 @@ body {
 }
 
 .page {
-  width: 55%;
+  width: 45%;
   min-height: 100%;
   margin: 0 auto;
   background: linear-gradient(#43484F, #404750);
@@ -119,6 +119,12 @@ h3 {
 
 span, p {
   color: #ccc;
+}
+
+@media only screen and (max-width: 1600px) {
+  .page {
+    width: 55%;
+  }
 }
 
 @media only screen and (max-width: 1024px) {
