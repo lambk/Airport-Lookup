@@ -11,4 +11,5 @@ module.exports = function(app, root) {
 
   app.route('/invalid-airport')
     .get(controller.loadInvalidPage);
+
 }
