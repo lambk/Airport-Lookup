@@ -194,6 +194,12 @@ function addAirportCache(api_data) {
 }
 
 function addMetarCache(api_data) {
+  /* Prevents adding the metar cache if the metar is unavailable
+   * Thus subsequent page loads will call the api incase the data is now available
+   */
+  if (api_data.metar.endsWith("METAR Currently Unavailable")) {
+    return api_data;
+  }
   let sql_data = [
     api_data.icao, api_data.metar
   ];
