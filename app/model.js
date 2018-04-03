@@ -4,7 +4,15 @@ const db = require('../db');
 exports.getAirportCache = function(icao, done, failure) {
   db.get_pool().query('SELECT *, NOW() AS \'current_time\' FROM airport_cache WHERE icao=?', icao, function(err, rows) {
     if (err) return failure(500, 'Error reading from airport cache');
-    if (rows.length > 0) console.log('[CACHE] Cache fetched for ' + icao);
+    if (rows.length > 0) console.log('[CACHE] Airport data fetched for ' + icao);
+    return done(rows);
+  });
+};
+
+exports.getMetarCache = function(icao, done, failure) {
+  db.get_pool().query('SELECT *, NOW() AS \'current_time\' FROM metar_cache WHERE icao=?', icao, function(err, rows) {
+    if (err) return failure(500, 'Error reading from metar cache');
+    if (rows.length > 0) console.log('[CACHE] Metar data fetched for ' + icao);
     return done(rows);
   });
 };
@@ -12,7 +20,15 @@ exports.getAirportCache = function(icao, done, failure) {
 exports.deleteAirportCache = function(icao, done, failure) {
   db.get_pool().query('DELETE FROM airport_cache WHERE icao=?', icao, function(err, result) {
     if (err) return failure(500, 'Error deleting from airport cache');
-    console.log('[CACHE] Cache deleted for ' + icao);
+    console.log('[CACHE] Airport data deleted for ' + icao);
+    return done(result);
+  });
+};
+
+exports.deleteMetarCache = function(icao, done, failure) {
+  db.get_pool().query('DELETE FROM metar_cache WHERE icao=?', icao, function(err, result) {
+    if (err) return failure(500, 'Error deleting from metar cache');
+    console.log('[CACHE] Metar data deleted for ' + icao);
     return done(result);
   });
 };
@@ -21,7 +37,15 @@ exports.addAirportCache = function(data, done, failure) {
   db.get_pool().query('INSERT INTO airport_cache (icao, title, latitude, longitude, city, country, timezone_tzid, timezone_gmt, status) \
   VALUES (?,?,?,?,?,?,?,?,?)', data, function(err, result) {
     if (err) return failure(500, 'Error inserting into airport cache');
-    console.log('[CACHE] Cache added for ' + data[0].toLowerCase());
+    console.log('[CACHE] Airport data added for ' + data[0]);
+    return done(result);
+  });
+};
+
+exports.addMetarCache = function(data, done, failure) {
+  db.get_pool().query('INSERT INTO metar_cache (icao, metar) VALUES (?,?)', data, function(err, result) {
+    if (err) return failure(500, 'Error inserting into metar cache');
+    console.log('[CACHE] Metar data added for ' + data[0]);
     return done(result);
   });
 };
@@ -67,7 +91,7 @@ exports.callMetarApi = function(icao, done, failure, redirect) {
       try {
         let data = JSON.parse(response.body);
         if (data.data[0].endsWith('Invalid Station ICAO')) return redirect();
-        done(data);
+        done(data.data[0]);
       } catch(e) {
         console.log(e);
         failure(500, 'Internal server error');
