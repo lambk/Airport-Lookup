@@ -8,7 +8,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
-app.user(enforce.HTTPS({trustProtoHeader : true}));
+app.use(enforce.HTTPS({trustProtoHeader : true}));
 
 require('./app/routes.js')(app, __dirname);
 
