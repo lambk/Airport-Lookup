@@ -10,7 +10,20 @@ html
     script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
       crossorigin="anonymous")
     script(type="text/javascript" src="/scripts/search.js")
+    script(type="text/javascript" src="/scripts/login.js")
   body
+    div.login-controls
+      a#login.link Log in
+      span |
+      a#signup.link Sign up
+    div.popup
+      div.popup-arrow
+      div.popup-content
+        h2 Username
+        input.text-field(type="text")
+        h2(style="margin-top: 15px") Password
+        input.text-field(type="password")
+        input.button(type="button" value="Login" style="margin: auto; margin-top: 15px; width: 60px")
     div.center
       h1 Airport Lookup
       div.textbox-container

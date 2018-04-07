@@ -68,7 +68,7 @@
 }
 
 .tooltip-container:after {
-';
+  content: 'x';
   margin-left: 5px;
   color: #933;
 }
