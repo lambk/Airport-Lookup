@@ -14,7 +14,6 @@ require('./app/routes.js')(app, __dirname);
 
 db.connect(function(err) {
   if (err) console.log(err);
-  db.get_pool().query('CREATE TABLE airport_cache (icao)')
 });
 
 let port = process.env.PORT || 3000;

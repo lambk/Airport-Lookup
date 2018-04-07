@@ -12,4 +12,12 @@ module.exports = function(app, root) {
   app.route('/invalid-airport')
     .get(controller.loadInvalidPage);
 
+  app.route('/create')
+    .post(controller.createUser);
+
+  app.route('/login')
+    .post(controller.login);
+
+  app.route('/logout')
+    .post(controller.logout);
 }
