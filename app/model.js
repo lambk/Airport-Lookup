@@ -19,10 +19,10 @@ exports.readUser = function(username, done, failure) {
   });
 };
 
-exports.addUserToken = function(data, done) {
+exports.addUserToken = function(data, done, failure) {
   db.get_pool().query('UPDATE users SET token=? WHERE username=?', data, (err, result) => {
-    if (err) return done(500, 'Error adding user token');
-    return done(200, {username: data[1], token: data[0]});
+    if (err) return failure(500, 'Error adding user token');
+    return done(data[0]);
   });
 };
 

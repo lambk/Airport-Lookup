@@ -1,12 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const db = require('./db');
 const enforce = require('express-sslify');
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(express.static(__dirname));
 app.use(enforce.HTTPS({trustProtoHeader : true}));
 

@@ -36,6 +36,7 @@ exports.createUser = function(req, res) {
  * If the password matches, a user token is generated, stored into the database, and given to the user for future actions.
  */
 exports.login = function(req, res) {
+  console.log(req.cookies);
   if (req.body.username == undefined) return res.status(400).send('No username provided');
   if (req.body.password == undefined) return res.status(400).send('No password provided');
   new Promise((resolve, reject) => {
@@ -57,7 +58,11 @@ exports.login = function(req, res) {
       }
     });
   }).then((token_obj) => {
-    model.addUserToken([token_obj.toString('hex'), req.body.username], (code, msg) => {
+    model.addUserToken([token_obj.toString('hex'), req.body.username], (token) => {
+      console.log('sending cookie');
+      res.cookie('token', token, {maxAge: 360000, httpOnly: false});
+      res.end('test');
+    }, (code, msg) => {
       res.status(code).send(msg);
     });
   });
