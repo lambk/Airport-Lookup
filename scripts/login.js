@@ -1,28 +1,55 @@
-$(() => {
-  $('#open-login').click(() => {
+
+
+var app = angular.module('login-app', []);
+app.controller('login-ctrl', function($scope) {
+  
+  $scope.authToken = function() {
+    $.ajax({
+      type: 'GET',
+      url: '/auth',
+      success: (username) => {
+        if (username != '') {
+          $scope.$apply(() => {
+            $scope.loggedUser = username;
+          });
+        }
+      },
+      error: (response) => {
+        console.log('Error on ajax token verification');
+      }
+    });
+  };
+  $scope.authToken();
+
+
+  $scope.openLogin = function() {
     $('.popup').slideToggle(600);
-  });
+  }
 
-  $('#login').click(() => {
-    postLogin($('#username').val(), $('#password').val());
-  });
+  $scope.postLogin = function() {
+    let loginData = {username: $scope.username, password: $scope.password};
+    $.ajax({
+      type: 'POST',
+      url: '/login',
+      contentType: 'application/json',
+      data: JSON.stringify(loginData),
+      success: (username) => {
+        $scope.$apply(() => {
+          $scope.loggedUser = username;
+        });
+        $('.popup').slideUp(600);
+      },
+      error: (response) => {
+        console.log('Error on ajax response to login. Response: ' + response);
+      }
+    });
+  };
 
-  $('#signup').click(() => {
-    alert('signup');
-  });
+  $scope.signUp = function() {
+    console.log('test');
+  };
 
-  $('.popup').hide();
+  $scope.signOut = function() {
+    $scope.loggedUser = undefined;
+  };
 });
-
-function postLogin(username, password) {
-  let loginData = {username : username, password: password};
-  $.ajax({
-    type: 'POST',
-    url: '/login',
-    contentType: 'application/json',
-    data: JSON.stringify(loginData),
-    error: (response) => {
-      console.log('Error on ajax response to login. Response: ' + response);
-    }
-  });
-};

@@ -30,6 +30,20 @@ exports.createUser = function(req, res) {
   });
 };
 
+exports.authorize = function(req, res) {
+  if (req.cookies.token == undefined) return res.status(200).send(undefined);
+  new Promise((resolve, reject) => {
+    model.readUserByToken(req.cookies.token, (result) => {
+      resolve(result);
+    }, (code, msg) => {
+      res.status(code).send(msg);
+    });
+  }).then((rows) => {
+    if (rows.length == 0) return res.status(200).send(undefined);
+    return res.status(200).send(rows[0].username);
+  });
+};
+
 /*
  * Fetches account information from the database and checks if the
  * provided password + the salt from the db matches the password in the database.
@@ -61,7 +75,7 @@ exports.login = function(req, res) {
     model.addUserToken([token_obj.toString('hex'), req.body.username], (token) => {
       console.log('sending cookie');
       res.cookie('token', token, {maxAge: 360000, httpOnly: false});
-      res.end('test');
+      res.status(200).send(req.body.username);
     }, (code, msg) => {
       res.status(code).send(msg);
     });

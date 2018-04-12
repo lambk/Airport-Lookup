@@ -3,21 +3,17 @@ const controller = require('./controller');
 module.exports = function(app, root) {
   controller.setRoot(root);
 
-  app.route('/')
-    .get(controller.loadMainPage);
+  app.get('/', controller.loadMainPage);
 
-  app.route('/airport/:icao')
-    .get(controller.loadAirportPage);
+  app.get('/airport/:icao', controller.loadAirportPage);
 
-  app.route('/invalid-airport')
-    .get(controller.loadInvalidPage);
+  app.get('/invalid-airport', controller.loadInvalidPage);
 
-  app.route('/create')
-    .post(controller.createUser);
+  app.post('/create', controller.createUser);
 
-  app.route('/login')
-    .post(controller.login);
+  app.post('/login', controller.login);
 
-  app.route('/logout')
-    .post(controller.logout);
+  app.post('/logout', controller.logout);
+
+  app.get('/auth', controller.authorize);
 }

@@ -13,7 +13,14 @@ exports.addUser = function(data, done) {
 };
 
 exports.readUser = function(username, done, failure) {
-  db.get_pool().query('SELECT * FROM users where username=?', username, (err, rows) => {
+  db.get_pool().query('SELECT * FROM users WHERE username=?', username, (err, rows) => {
+    if (err) return failure(500, 'Error reading from users');
+    return done(rows);
+  });
+};
+
+exports.readUserByToken = function(token, done, failure) {
+  db.get_pool().query('SELECT * FROM users WHERE token=?', token, (err, rows) => {
     if (err) return failure(500, 'Error reading from users');
     return done(rows);
   });

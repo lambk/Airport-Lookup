@@ -29,8 +29,8 @@ body {
 
 .login-controls {
   display: flex;
-  justify-content: space-between;
-  width: 100px;
+  justify-content: flex-end;
+  width: 130px;
   position: absolute;
   right: 10px;
   top: 5px;
