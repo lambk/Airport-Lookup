@@ -5,6 +5,7 @@ html
     script(type="text/javascript" src="/scripts/login.js")
     link(rel="stylesheet" type="text/css" href="/css/login.css")
   body
+    span#banner(style="display: none")
     div.login-controls
       a.link(ng-show="loggedUser == undefined" ng-click="openLogin()") Log in
       a.link(ng-hide="loggedUser == undefined") {{loggedUser}}
@@ -27,7 +28,11 @@ html
           form(ng-submit="postSignUp()")
             h2(style="margin-top: 15px") Username
             input#newUsername.text-field(type="text" ng-model="newUsername")
+            div#newUsernameTT
+              include tooltip.jade
             h2(style="margin-top: 15px") Password
             input#newPassword.text-field(type="password" ng-model="newPassword")
+            div#newPasswordTT
+              include tooltip.jade
             input.button.button-cancel(type="button" ng-click="closeSignUp()" value="Cancel")
             input#signup.button(type="submit" value="Create" style="margin-top: 20px; margin-left: 30px")

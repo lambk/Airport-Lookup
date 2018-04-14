@@ -2,7 +2,7 @@ $(function() {
   //Clear the 'Field required' tooltip when the user types or changes the ICAO input (if the input isn't still empty)
   $('#icaoTxt').on('change keyup', function() {
     if ($(this).val().length > 0) {
-      $('#icaoTT').addClass('invisible');
+      $('#icaoTT .tooltip').hide(200)
     }
   });
 
@@ -12,11 +12,6 @@ $(function() {
       search();
     }
   });
-
-  //Hides the tooltip when clicked
-  $('.tooltip').click(function(event) {
-    $(this).addClass('invisible');
-  })
 
   //Call the search function when the search button is clicked
   $('#searchBtn').click(search);
@@ -29,11 +24,11 @@ $(function() {
 function search() {
   icao = $('#icaoTxt').val().trim();
   if (icao.length == 0) {
-    $('.tooltip-container').html('Field required');
-    $('#icaoTT').removeClass('invisible');
+    $('#icaoTT .tooltip-container').html('Field required');
+    $('#icaoTT .tooltip').show(200);
   } else if (!/^[A-Z|a-z]{4}$/.test(icao)) {
-    $('.tooltip-container').html('Not a valid ICAO code');
-    $('#icaoTT').removeClass('invisible');
+    $('#icaoTT .tooltip-container').html('Not a valid ICAO code');
+    $('#icaoTT .tooltip').show(200);
   } else {
     window.location = '/airport/' + icao.toLowerCase();
   }

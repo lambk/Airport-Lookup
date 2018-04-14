@@ -33,10 +33,6 @@ h1 {
   font-size: 45px;
 }
 
-.invisible {
-  opacity: 0;
-}
-
 .flex { //todo remove
   display: flex;
   justify-content: center;
