@@ -25,9 +25,8 @@ html
         div.search-container
           div.textbox-container
             input#icaoTxt.sub-textbox(type="text" placeholder="Load Another Airport..")
-            div#icaoTT.tooltip.invisible
-              div.tooltip-arrow
-              span.tooltip-container
+            div#icaoTT
+              include tooltip.jade
           input#searchBtn.button(type="button" value="Search")
         div.split-containers
           div.info.info-side.container
