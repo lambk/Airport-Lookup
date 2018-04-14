@@ -39,7 +39,10 @@ exports.authorize = function(req, res) {
       res.status(code).send(msg);
     });
   }).then((rows) => {
-    if (rows.length == 0) return res.status(200).send(undefined);
+    if (rows.length == 0) {
+      res.clearCookie('token');
+      return res.status(200).send(undefined);
+    }
     return res.status(200).send(rows[0].username);
   });
 };
@@ -81,8 +84,11 @@ exports.login = function(req, res) {
 };
 
 exports.logout = function(req, res) {
-  if (req.body.token == undefined) return res.status(400).send('No token provided');
-  model.removeUserToken(req.body.token, (code, msg) => {
+  if (req.cookies.token == undefined) return res.status(400).send('No token provided');
+  model.removeUserToken(req.cookies.token, (code, msg) => {
+    res.clearCookie('token');
+    res.status(code).send(msg);
+  }, (code, msg) => {
     res.status(code).send(msg);
   });
 };

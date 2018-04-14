@@ -10,7 +10,7 @@ app.controller('login-ctrl', function($scope, $http) {
     }).then(function(response) { //Success
       if (response.data != '') $scope.loggedUser = response.data;
     }, function(response) { //Failure
-      console.log(`Error on ajax token verification. Response: ${response}`);
+      console.log('Error authorizing token');
     });
   };
   $scope.authToken();
@@ -30,8 +30,6 @@ app.controller('login-ctrl', function($scope, $http) {
       $('#loginMenu').slideUp(600); //Hide login menu
     },function(response) { //Failure
       if (response.status == 401) $('#loginMenu').effect('shake', {distance: 8, times: 2}); $scope.password = '';
-      console.log('Error on ajax response to login. Response: ')
-      console.log(response);
     });
   };
 
@@ -40,6 +38,13 @@ app.controller('login-ctrl', function($scope, $http) {
   };
 
   $scope.signOut = function() {
-    $scope.loggedUser = undefined;
+    $http({
+      method: 'POST',
+      url: '/logout'
+    }).then(function(response) { //Success
+      $scope.loggedUser = undefined;
+    }, function(response) {
+      console.log('Error logging out')
+    });
   };
 });

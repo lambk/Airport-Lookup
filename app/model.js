@@ -33,9 +33,9 @@ exports.addUserToken = function(data, done, failure) {
   });
 };
 
-exports.removeUserToken = function(token, done) {
+exports.removeUserToken = function(token, done, failure) {
   db.get_pool().query('UPDATE users SET token=NULL WHERE token=?', token, (err, result) => {
-    if (err) return done(500, 'Error removing user token');
+    if (err) return failure(500, 'Error removing user token');
     return done(200, 'User token removed');
   })
 }
