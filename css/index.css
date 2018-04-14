@@ -50,36 +50,3 @@ body {
 h2 {
   margin: 0;
 }
-
-#loginMenu {
-  position: absolute;
-  right: 20px;
-  top: 25px;
-  width: 200px;
-  z-index: 1;
-  box-sizing: border-box;
-}
-
-.popup-arrow {
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid rgba(255,255,255,0.6);
-  width: 0;
-  height: 0;
-  margin-left: 120px;
-}
-
-.popup-content {
-  background-color: rgba(255,255,255,0.6);
-  border-radius: 5px;
-  padding: 15px 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.text-field {
-  height: 25px;
-  border: 0;
-  border-radius: 5px;
-  font-size: 18px;
-}

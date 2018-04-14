@@ -8,26 +8,10 @@ html
     link(rel="stylesheet" type="text/css" href="/css/search.css")
     link(rel="stylesheet" type="text/css" href="/css/index.css")
     script(src="https://code.jquery.com/jquery-3.3.1.min.js")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js")
-    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js")
     script(type="text/javascript" src="/scripts/search.js")
-    script(type="text/javascript" src="/scripts/login.js")
   body
     div(ng-app="login-app" ng-controller="login-ctrl")
-      div.login-controls
-        a.link(ng-show="loggedUser == undefined" ng-click="openLogin()") Log in
-        a.link(ng-hide="loggedUser == undefined") {{loggedUser}}
-        span(style="margin: 0 3px") |
-        a.link(ng-show="loggedUser == undefined" ng-click="signUp()") Sign Up
-        a.link(ng-hide="loggedUser == undefined" ng-click="signOut()") Sign Out
-      div#loginMenu(style="display: none")
-        div.popup-arrow
-        div.popup-content
-          h2 Username
-          input#username.text-field(type="text" ng-model="username")
-          h2(style="margin-top: 15px") Password
-          input#password.text-field(type="password" ng-model="password")
-          input#login.button(type="button" ng-click="postLogin()" value="Login" style="margin: auto; margin-top: 15px; width: 60px")
+      include login.jade
     div.center
       h1 Airport Lookup
       div.textbox-container

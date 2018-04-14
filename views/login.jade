@@ -1,0 +1,51 @@
+html
+  head
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js")
+    script(type="text/javascript" src="/scripts/login.js")
+    style(type="text/css").
+      #loginMenu {
+        position: absolute;
+        top: 15px;
+        width: 200px;
+        z-index: 1;
+        box-sizing: border-box;
+      }
+      .popup-arrow {
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid rgba(255,255,255,0.6);
+        width: 0;
+        height: 0;
+        margin-left: 120px;
+      }
+      .popup-content {
+        background-color: rgba(255,255,255,0.6);
+        border-radius: 5px;
+        padding: 15px 20px;
+        display: flex;
+        flex-direction: column;
+      }
+      .text-field {
+        height: 25px;
+        border: 0;
+        border-radius: 5px;
+        font-size: 18px;
+        width: 100%;
+      }
+  body
+    div.login-controls
+      a.link(ng-show="loggedUser == undefined" ng-click="openLogin()") Log in
+      a.link(ng-hide="loggedUser == undefined") {{loggedUser}}
+      span(style="margin: 0 3px") |
+      a.link(ng-show="loggedUser == undefined" ng-click="signUp()") Sign Up
+      a.link(ng-hide="loggedUser == undefined" ng-click="signOut()") Sign Out
+      div#loginMenu(style="display: none")
+        div.popup-arrow
+        div.popup-content
+          form(ng-submit="postLogin()" style="margin: 0")
+            h2 Username
+            input#username.text-field(type="text" ng-model="username")
+            h2(style="margin-top: 15px") Password
+            input#password.text-field(type="password" ng-model="password")
+            input#login.button(type="submit" ng-click="postLogin()" value="Login" style="margin: auto; margin-top: 15px; width: 60px")
