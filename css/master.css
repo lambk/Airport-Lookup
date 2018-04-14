@@ -59,6 +59,11 @@ input:focus {
   transition: all 0.1s linear;
 }
 
+.button-cancel {
+  border: 1px solid #55ccee;
+  background: #00000020;
+}
+
 .button:hover {
   transform: scaleX(1.1);
   background: #55ccee;

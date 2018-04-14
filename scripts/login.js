@@ -1,4 +1,10 @@
-
+$(function() {
+  $('#signUpMenu').dialog({
+    dialogClass: 'no-close',
+    modal: true,
+    autoOpen: false
+  }).disableSelection();
+});
 
 var app = angular.module('login-app', []);
 app.controller('login-ctrl', function($scope, $http) {
@@ -33,8 +39,17 @@ app.controller('login-ctrl', function($scope, $http) {
     });
   };
 
-  $scope.signUp = function() {
-    console.log('test');
+  $scope.openSignUp = function() {
+    $('#signUpMenu').dialog('open');
+  };
+
+  $scope.closeSignUp = function() {
+    $('#signUpMenu').dialog('close');
+    $('#signUpMenu input[type=text], #signUpMenu input[type=password]').val('');
+  };
+
+  $scope.postSignUp = function() {
+    console.log(':)');
   };
 
   $scope.signOut = function() {
