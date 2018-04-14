@@ -27,26 +27,3 @@ body {
     width: 100%;
   }
 }
-
-.login-controls {
-  display: flex;
-  justify-content: flex-end;
-  width: 130px;
-  position: absolute;
-  right: 10px;
-  top: 5px;
-}
-
-.link {
-  color: white;
-  cursor: pointer;
-  opacity: 0.8;
-}
-
-.link:hover {
-  opacity: 1;
-}
-
-h2 {
-  margin: 0;
-}

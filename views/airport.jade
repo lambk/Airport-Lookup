@@ -12,7 +12,13 @@ html
       crossorigin="anonymous")
     script(type="text/javascript" src="/scripts/search.js")
     script(type="text/javascript" src="/scripts/google-maps.js")
+    style(type="text/css").
+      .link {
+        text-shadow: 1px 1px black;
+      }
   body
+    div(ng-app="login-app" ng-controller="login-ctrl")
+      include login.jade
     div.page
       h1#title.dark #{icao}
       div.main-content
