@@ -1,4 +1,5 @@
 const controller = require('./controller');
+const userController = require('./userController');
 
 module.exports = function(app, root) {
   controller.setRoot(root);
@@ -9,11 +10,11 @@ module.exports = function(app, root) {
 
   app.get('/invalid-airport', controller.loadInvalidPage);
 
-  app.post('/create', controller.createUser);
+  app.post('/create', userController.createUser);
 
-  app.post('/login', controller.login);
+  app.post('/login', userController.login);
 
-  app.post('/logout', controller.logout);
+  app.post('/logout', userController.logout);
 
-  app.get('/auth', controller.authorize);
+  app.get('/auth', userController.authorize);
 }
