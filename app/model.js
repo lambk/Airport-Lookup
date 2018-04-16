@@ -38,7 +38,14 @@ exports.removeUserToken = function(token, done, failure) {
     if (err) return failure(500, 'Error removing user token');
     return done(200, 'User token removed');
   })
-}
+};
+
+exports.readFavourites = function(username, done, failure) {
+  db.get_pool().query('SELECT airport FROM user_airport_favourites where username=?', username, (err, rows) => {
+    if (err) return failure(500, 'Error reading user favourites');
+    return done(rows);
+  });
+};
 
 exports.getAirportCache = function(icao, done, failure) {
   db.get_pool().query('SELECT *, NOW() AS \'current_time\' FROM airport_cache WHERE icao=?', icao, function(err, rows) {

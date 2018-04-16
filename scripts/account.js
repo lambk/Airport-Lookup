@@ -32,8 +32,9 @@ function displayBanner(type, msg) {
   }, 3000);
 }
 
-var app = angular.module('login-app', []);
-app.controller('login-ctrl', function($scope, $http) {
+var app = angular.module('account', []);
+app.controller('account-ctrl', function($scope, $http) {
+  $scope.icao = $('#title').html().split('-')[0].trim();
 
   $scope.authToken = function() {
     $http({
@@ -41,10 +42,26 @@ app.controller('login-ctrl', function($scope, $http) {
       url: '/auth',
     }).then(function(response) { //Success
       if (response.data != '') $scope.loggedUser = response.data;
+      $scope.loadFavourites();
     }, function(response) { //Failure
       console.log('Error authorizing token');
     });
   };
+
+  $scope.loadFavourites = function() {
+    if ($scope.loggedUser != undefined) {
+      $http({
+        method: 'GET',
+        url: '/user/' + $scope.loggedUser + '/favourites',
+      }).then(function(response) {
+        console.log(response);
+        $scope.favourites = response.data;
+      }, function(response) {
+        console.log('Error checking favourite state');
+      });
+    }
+  };
+
   $scope.authToken();
 
   $scope.openLogin = function() {
@@ -59,6 +76,7 @@ app.controller('login-ctrl', function($scope, $http) {
       data: loginData
     }).then(function(response) { //Success
       $scope.loggedUser = response.data;
+      $scope.loadFavourites();
       $('#loginMenu').slideUp(600); //Hide login menu
     },function(response) { //Failure
       if (response.status == 401) $('#loginMenu').effect('shake', {distance: 8, times: 2}); $scope.password = '';

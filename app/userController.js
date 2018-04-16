@@ -88,3 +88,16 @@ exports.logout = function(req, res) {
     res.status(code).send(msg);
   });
 };
+
+exports.getFavourites = function(req, res) {
+  let user = req.params.username;
+  model.readFavourites(user, (rows) => {
+    let favourites = [];
+    for (let i=0; i< rows.length; i++) {
+      favourites.push(rows[i].airport);
+    }
+    res.status(200).send(favourites);
+  }, (code, msg) => {
+    res.status(code).send(msg);
+  });
+}

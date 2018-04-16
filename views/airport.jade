@@ -8,18 +8,18 @@ html
     link(rel="stylesheet" type="text/css" href="/css/search.css")
     link(rel="stylesheet" type="text/css" href="/css/airport.css")
     script(type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCTrWWBWfYPGFsHvv8sr4tkfpeubCiDIE0")
-    script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous")
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js")
     script(type="text/javascript" src="/scripts/search.js")
     script(type="text/javascript" src="/scripts/google-maps.js")
     style(type="text/css").
       .link {
         text-shadow: 1px 1px black;
       }
-  body
-    div(ng-app="login-app" ng-controller="login-ctrl")
+  body(ng-app="account" ng-controller="account-ctrl")
+    div
       include login.jade
     div.page
+      input.favouriteBtn(type="button" ng-disabled="loggedUser == undefined" ng-class="{favourite: favourites != undefined && favourites.indexOf(icao) != -1}" ng-click="addFavourite()" value="Favourite")
       h1#title.dark #{icao}
       div.main-content
         div.search-container

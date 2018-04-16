@@ -17,4 +17,6 @@ module.exports = function(app, root) {
   app.post('/logout', userController.logout);
 
   app.get('/auth', userController.authorize);
+
+  app.get('/user/:username/favourites', userController.getFavourites);
 }
