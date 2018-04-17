@@ -1,38 +1,30 @@
-html
-  head
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js")
-    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js")
-    script(type="text/javascript" src="/scripts/account.js")
-    link(rel="stylesheet" type="text/css" href="/css/login.css")
-  body
-    span#banner(style="display: none")
-    div.login-controls
-      a.link(ng-show="loggedUser == undefined" ng-click="openLogin()") Log in
-      a.link(ng-hide="loggedUser == undefined") {{loggedUser}}
-      span(style="margin: 0 3px") |
-      a.link(ng-show="loggedUser == undefined" ng-click="openSignUp()") Sign Up
-      a.link(ng-hide="loggedUser == undefined" ng-click="signOut()") Sign Out
-      div#loginMenu(style="display: none")
-        div.popup-arrow
-        div.popup-content
-          form(ng-submit="postLogin()" style="margin: 0")
-            h2 Username
-            input#username.text-field(type="text" ng-model="username")
-            h2(style="margin-top: 15px") Password
-            input#password.text-field(type="password" ng-model="password")
-            input#login.button(type="submit" value="Login" style="margin-top: 15px")
-      div#signUpMenu
-        h2(style="font-size: 1.8em") Create Account
-        hr(style="color: #aaa")
-        div(style="padding: 0 45px")
-          form(ng-submit="postSignUp()")
-            h2(style="margin-top: 15px") Username
-            input#newUsername.text-field(type="text" ng-model="newUsername")
-            div#newUsernameTT
-              include tooltip.jade
-            h2(style="margin-top: 15px") Password
-            input#newPassword.text-field(type="password" ng-model="newPassword")
-            div#newPasswordTT
-              include tooltip.jade
-            input.button.button-cancel(type="button" ng-click="closeSignUp()" value="Cancel")
-            input#signup.button(type="submit" value="Create" style="margin-top: 20px; margin-left: 30px")
+span#banner(style="display: none")
+div.login-controls
+  a.link(v-show="loggedUser == undefined" v-on:click="toggleLoginMenu") Log in
+  a.link(v-show="loggedUser != undefined") {{loggedUser}}
+  span(style="margin: 0 3px") |
+  a.link(v-show="loggedUser == undefined" v-on:click="openSignUpForm") Sign Up
+  a.link(v-show="loggedUser != undefined" v-on:click="signOut") Sign Out
+  transition(name="fade")
+    div#loginMenu(v-show="loginVis")
+      div.popup-arrow
+      div.popup-content
+        form(v-on:submit.prevent="loginSubmit" style="margin: 0")
+          h2 Username
+          input#username.text-field(type="text" v-model="loginData.username")
+          h2(style="margin-top: 15px") Password
+          input#password.text-field(type="password" v-model="loginData.password")
+          input#login.button(type="submit" value="Login" style="margin-top: 15px")
+  div#signUpMenu
+    h2(style="font-size: 1.8em") Create Account
+    hr(style="color: #aaa")
+    div(style="padding: 0 45px")
+      form(v-on:submit.prevent="signupSubmit")
+        h2(style="margin-top: 15px") Username
+        input#newUsername.text-field(type="text" v-model="formData.username")
+        div#newUsernameTT
+        h2(style="margin-top: 15px") Password
+        input#newPassword.text-field(type="password" v-model="formData.password")
+        div#newPasswordTT
+        input.button.button-cancel(type="button" v-on:click="closeSignUpForm" value="Cancel")
+        input#signup.button(type="submit" value="Create" style="margin-top: 20px; margin-left: 30px")

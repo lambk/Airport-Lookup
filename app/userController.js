@@ -27,7 +27,7 @@ exports.createUser = function(req, res) {
 };
 
 exports.authorize = function(req, res) {
-  if (req.cookies.token == undefined) return res.status(200).send(undefined);
+  if (req.cookies.token == undefined) return res.status(401).send('No token');
   new Promise((resolve, reject) => {
     model.readUserByToken(req.cookies.token, (result) => { //Fetching users with a matching login token
       resolve(result);
@@ -37,7 +37,7 @@ exports.authorize = function(req, res) {
   }).then((rows) => {
     if (rows.length == 0) { //The token doesn't match any tokens in the database (Likely for a user that has had the token updated)
       res.clearCookie('token');
-      return res.status(200).send(undefined);
+      return res.status(401).send('No matching token');
     }
     return res.status(200).send(rows[0].username); //Return the username of the logged in user
   });
