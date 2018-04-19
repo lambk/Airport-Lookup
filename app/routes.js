@@ -10,13 +10,13 @@ module.exports = function(app, root) {
 
   app.get('/invalid-airport', controller.loadInvalidPage);
 
-  app.post('/user/signup', userController.createUser);
+  app.post('/users', userController.createUser);
 
-  app.post('/user/login', userController.login);
+  app.post('/login', userController.login);
 
-  app.post('/user/logout', userController.logout);
+  app.post('/logout', userController.logout);
 
-  app.post('/user/auth', userController.authorize);
+  app.post('/auth', userController.authorize);
 
-  app.get('/user/favourites', userController.getFavourites);
+  app.get('/users/favourites', userController.getFavourites);
 }

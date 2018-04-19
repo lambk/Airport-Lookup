@@ -38,6 +38,7 @@
   position: absolute;
   right: 10px;
   top: 5px;
+  z-index: 2;
 }
 
 .link {
@@ -97,17 +98,4 @@ h2 {
   background-color: rgba(255, 0, 0, 0.2);
   border: 2px solid red;
   border-top: 0;
-}
-
-.fade-enter-active {
-  transition: all 0.5s ease-out;
-}
-
-.fade-leave-active {
-  transition: all 0.5s ease-in;
-}
-
-.fade-enter, .fade-leave-to {
-  transform: translateY(-30px);
-  opacity: 0;
 }

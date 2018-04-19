@@ -7,27 +7,31 @@ html
     link(rel="stylesheet" type="text/css" href="/css/master.css")
     link(rel="stylesheet" type="text/css" href="/css/search.css")
     link(rel="stylesheet" type="text/css" href="/css/airport.css")
-    script(type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCTrWWBWfYPGFsHvv8sr4tkfpeubCiDIE0")
+    link(rel="stylesheet" type="text/css" href="/css/tooltip.css")
+    link(rel="stylesheet" type="text/css" href="/css/transitions.css")
+    script(src="https://maps.google.com/maps/api/js?key=AIzaSyCTrWWBWfYPGFsHvv8sr4tkfpeubCiDIE0")
     script(src="https://code.jquery.com/jquery-3.3.1.min.js")
-    script(type="text/javascript" src="/scripts/search.js")
+    script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js")
+    script(src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0")
     script(type="text/javascript" src="/scripts/google-maps.js")
     style(type="text/css").
       .link {
         text-shadow: 1px 1px black;
       }
   body(ng-app="account" ng-controller="account-ctrl")
-    div
+    div#loginApp
       include login.jade
     div.page
       input.favouriteBtn(type="button" ng-disabled="loggedUser == undefined" ng-class="{favourite: favourites != undefined && favourites.indexOf(icao) != -1}" ng-click="addFavourite()" value="Favourite")
       h1#title.dark #{icao}
       div.main-content
-        div.search-container
-          div.textbox-container
-            input#icaoTxt.sub-textbox(type="text" placeholder="Load Another Airport..")
-            div#icaoTT
-              include tooltip.jade
-          input#searchBtn.button(type="button" value="Search")
+        div#searchApp.search-container
+          form(v-on:submit.prevent="searchSubmit" style="margin: 0")
+            div.textbox-container
+              input#icaoTxt.sub-textbox(type="text" v-model.trim="icao" v-on:keyup="hideTooltip" placeholder="Load Another Airport.." autocomplete="off")
+              tooltip(v-bind:show="showTooltip" v-bind:message="tooltipMsg")
+            input#searchBtn.button(type="submit" value="Search")
         div.split-containers
           div.info.info-side.container
             h3 Airport information
@@ -56,4 +60,5 @@ html
           h3 METAR
           hr
           span #{metar}
-  
+    script(type="text/javascript" src="/scripts/account.js")
+    script(type="text/javascript" src="/scripts/searchApp.js")

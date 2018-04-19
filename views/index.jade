@@ -7,22 +7,23 @@ html
     link(rel="stylesheet" type="text/css" href="/css/master.css")
     link(rel="stylesheet" type="text/css" href="/css/search.css")
     link(rel="stylesheet" type="text/css" href="/css/index.css")
-    link(rel="stylesheet" type="text/css" href="/css/login.css")
+    link(rel="stylesheet" type="text/css" href="/css/tooltip.css")
+    link(rel="stylesheet" type="text/css" href="/css/transitions.css")
     script(src="https://code.jquery.com/jquery-3.3.1.min.js")
     script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
     script(src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js")
     script(src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0")
-    script(type="text/javascript" src="/scripts/search.js")
-    script(type="text/javascript" src="/scripts/account.js")
   body
     div#loginApp
       include login.jade
-    div.center
+    div#searchApp.center
       h1 Airport Lookup
-      div.textbox-container
-        input#icaoTxt.main-textbox(type="text" placeholder="Enter Airport ICAO..")
-        div#icaoTT
-          include tooltip.jade
-      input#searchBtn.button.btn-primary(type="button" value="Search")
+      form(v-on:submit.prevent="searchSubmit" style="margin: 0")
+        div.textbox-container
+          input#icaoTxt.main-textbox(type="text" v-model.trim="icao" v-on:keyup="hideTooltip" placeholder="Enter Airport ICAO.." autocomplete="off")
+          tooltip(v-bind:show="showTooltip" v-bind:message="tooltipMsg")
+        input#searchBtn.button.btn-primary(type="submit" value="Search")
     span.footnote(style="left: 0") Kyle Lamb
     span.footnote(style="right: 0") All airport & weather information sourced from the CheckWX API
+    script(type="text/javascript" src="/scripts/account.js")
+    script(type="text/javascript" src="/scripts/searchApp.js")
