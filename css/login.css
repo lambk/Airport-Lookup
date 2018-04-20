@@ -1,6 +1,7 @@
-#loginMenu {
+.login-menu {
   position: absolute;
-  top: 15px;
+  top: 20px;
+  right: 10px;
   width: 200px;
   z-index: 1;
   box-sizing: border-box;

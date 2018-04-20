@@ -1,10 +1,86 @@
 
+Vue.component('logincontainer', {
+  template: `
+  <div>
+    <slot name="login-nav"></slot>
+    <slot name="login-menu"></slot>
+    <slot name="signup-menu"></slot>
+  </div>
+  `
+});
+
+Vue.component('loginnav', {
+  props: ['user', 'loginClick', 'signupClick', 'signoutClick'],
+  template: `
+    <div class="login-controls">
+      <a class="link" v-show="user == undefined" v-on:click="loginClick">Log In</a>
+      <a class="link" v-show="user != undefined">{{ user }}</a>
+      <span style="margin: 0 3px">|</span>
+      <a class="link" v-show="user == undefined" v-on:click="signupClick">Sign Up</a>
+      <a class="link" v-show="user != undefined" v-on:click="signoutClick">Sign Out</a>
+    </div>
+  `
+});
+
+Vue.component('loginmenu', {
+  props: ['enabled'],
+  template: `
+    <transition name="fall">
+      <div class="login-menu" v-show="enabled">
+        <div class="popup-arrow"></div>
+        <div class="popup-content">
+          <slot name="login-form"></slot>
+        </div>
+      </div>
+    </transition>
+  `
+});
+
+Vue.component('loginform', {
+  props: ['formSubmit', 'loginData'],
+  template: `
+    <form style="margin: 0" v-on:submit.prevent="formSubmit">
+      <h2>Username</h2>
+      <input type="text" class="text-field" v-model="loginData.username" />
+      <h2 style="margin-top: 15px">Password</h2>
+      <input type="password" class="text-field" v-model="loginData.password" />
+      <input type="submit" class="button" value="Login" style="margin-top: 15px" />
+    </form>
+  `
+});
+
+Vue.component('signupmenu', {
+  template: `
+    <div class="signup-menu">
+      <h2 style="font-size: 1.8em">Create Account</h2>
+      <hr style="color: #aaa" ></hr>
+      <div style="padding: 0 45px">
+        <slot name="signup-form"></slot>
+      </div>
+    </div>
+  `
+});
+
+Vue.component('signupform', {
+  props: ['formSubmit', 'formData', 'cancelClick'],
+  template: `
+    <form v-on:submit.prevent="formSubmit">
+      <h2 style="margin-top: 15px">Username</h2>
+      <input type="text" class="text-field" v-model="formData.username" />
+      <h2 style="margin-top: 15px">Password</h2>
+      <input type="password" class="text-field" v-model="formData.password" />
+      <input type="button" class="button button-cancel" value="Cancel" v-on:click="cancelClick" />
+      <input type="submit" class="button" value="Create" style="margin-top: 20px; margin-left: 30px" />
+    </form>
+  `
+});
+
 let account = new Vue({
   el: '#loginApp',
   data: {
     loggedUser: undefined, //The current logged in username
     loginData: { //Login menu data
-      username: undefined,
+      username: 'unined',
       password: undefined
     },
     formData: { //Signup menu data
@@ -14,6 +90,9 @@ let account = new Vue({
     loginVis: false //Visibility state of the login menu
   },
   methods: {
+    test23: function() {
+      console.log('asdasdasd');
+    },
     //Gets the logged in username based on token (Called on pageload)
     authorizeToken: function() {
       this.$http({
@@ -35,11 +114,13 @@ let account = new Vue({
     },
     //Opens the signup modal dialog
     openSignUpForm: function() {
-      $('#signUpMenu').dialog('open');
+      $('.signup-menu').dialog('open');
+      this.formData.username = undefined;
+      this.formData.password = undefined;
     },
     //Closes the signup modal dialog
     closeSignUpForm: function() {
-      $('#signUpMenu').dialog('close');
+      $('.signup-menu').dialog('close');
     },
     //Submits the login data to the server. If successful login, the server registers the client a token cookie
     loginSubmit: function() {
@@ -83,9 +164,13 @@ let account = new Vue({
 
 account.authorizeToken(); //Authorize the token on pageload
 
-//Register the signup menu as a modal dialog
-$('#signUpMenu').dialog({
-  dialogClass: 'no-close',
-  modal: true,
-  autoOpen: false
-}).disableSelection();
+$(() => {
+  //Register the signup menu as a modal dialog
+  $('.signup-menu').dialog({
+    show: 'fade',
+    hide: 'fade',
+    dialogClass: 'no-close',
+    modal: true,
+    autoOpen: false
+  }).disableSelection();
+});

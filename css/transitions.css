@@ -1,15 +1,19 @@
-.fade-enter-active {
+/* Fall down into position */
+
+.fall-enter-active {
   transition: all 0.5s ease-out;
 }
 
-.fade-leave-active {
+.fall-leave-active {
   transition: all 0.5s ease-in;
 }
 
-.fade-enter, .fade-leave-to {
+.fall-enter, .fall-leave-to {
   transform: translateY(-30px);
   opacity: 0;
 }
+
+/* Shrink to a point */
 
 .shrink-enter-active {
   transition: all 0.2s ease-out;
@@ -22,4 +26,18 @@
 .shrink-enter, .shrink-leave-to {
   transform: scale(0);
   opacity: 0;
+}
+
+/* Fade only */
+
+.fade-enter-active {
+  transition: all 0.5s ease-out;
+}
+
+.fade-leave-active {
+  transition: all 0.5s ease-in;
+}
+
+.fade-ente, .fade-leave-to {
+  opacity: 0
 }

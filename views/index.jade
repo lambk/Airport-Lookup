@@ -7,6 +7,7 @@ html
     link(rel="stylesheet" type="text/css" href="/css/master.css")
     link(rel="stylesheet" type="text/css" href="/css/search.css")
     link(rel="stylesheet" type="text/css" href="/css/index.css")
+    link(rel="stylesheet" type="text/css" href="/css/login.css")
     link(rel="stylesheet" type="text/css" href="/css/tooltip.css")
     link(rel="stylesheet" type="text/css" href="/css/transitions.css")
     script(src="https://code.jquery.com/jquery-3.3.1.min.js")
@@ -15,7 +16,12 @@ html
     script(src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0")
   body
     div#loginApp
-      include login.jade
+      logincontainer
+        loginnav(slot="login-nav" v-bind:user="loggedUser" v-bind:login-click="toggleLoginMenu" v-bind:signup-click="openSignUpForm" v-bind:signout-click="signOut")
+        loginmenu(slot="login-menu" v-bind:enabled="loginVis")
+          loginform(slot="login-form" v-bind:form-submit="loginSubmit" v-bind:login-data="loginData")
+        signupmenu(slot="signup-menu")
+          signupform(slot="signup-form" v-bind:form-submit="signupSubmit" v-bind:form-data="formData" v-bind:cancel-click="closeSignUpForm")
     div#searchApp.center
       h1 Airport Lookup
       form(v-on:submit.prevent="searchSubmit" style="margin: 0")
