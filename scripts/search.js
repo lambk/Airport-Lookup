@@ -1,35 +1,42 @@
-$(function() {
-  //Clear the 'Field required' tooltip when the user types or changes the ICAO input (if the input isn't still empty)
-  $('#icaoTxt').on('change keyup', function() {
-    if ($(this).val().length > 0) {
-      $('#icaoTT .tooltip').hide(200)
-    }
-  });
 
-  //Call the search function if the user hits the Enter key while the ICAO input has focus
-  $('#icaoTxt').keyup(function(event) {
-    if (event.keyCode == 13) {
-      search();
+Vue.component('tooltip', {
+  props: ['show', 'message'],
+  template: `
+    <transition name="shrink">
+      <div v-show="show" v-on:click="hideSelf" class="tooltip">
+        <div class="tooltip-arrow"></div>
+        <div class="tooltip-container">{{message}}</div>
+      </div>
+    </transition>
+  `,
+  methods: {
+    hideSelf: function() {
+      searchApp.showTooltip = false;
     }
-  });
-
-  //Call the search function when the search button is clicked
-  $('#searchBtn').click(search);
+  }
 });
 
-/*
-  Checks whether the ICAO input is either empty (or only consisting of whitespace) or not in valid ICAO format (4 letters only).
-  If so, the tooltip is shown with appropriate feedback. If not, the page is redirected to /airport/<icao>
-*/
-function search() {
-  icao = $('#icaoTxt').val().trim();
-  if (icao.length == 0) {
-    $('#icaoTT .tooltip-container').html('Field required');
-    $('#icaoTT .tooltip').show(200);
-  } else if (!/^[A-Z|a-z]{4}$/.test(icao)) {
-    $('#icaoTT .tooltip-container').html('Not a valid ICAO code');
-    $('#icaoTT .tooltip').show(200);
-  } else {
-    window.location = '/airport/' + icao.toLowerCase();
+let searchApp = new Vue({
+  el: '#searchApp',
+  data: {
+    showTooltip: false,
+    tooltipMsg: '',
+    icao: ''
+  },
+  methods: {
+    searchSubmit: function(event) {
+      if (this.icao.length == 0) { //No input
+        this.tooltipMsg = 'Field required';
+      } else if (!/^[A-Za-z]{4}$/.test(this.icao)) { //Input is not 4 characters (upper or lowercase)
+        this.tooltipMsg = 'Invalid icao format';
+      } else { //Valid input
+        this.tooltipMsg = undefined;
+      }
+      //Determining whether to display the tooltip, or continue to the airport page
+      if (this.tooltipMsg != undefined) this.showTooltip = true; else window.location = '/airport/' + this.icao.toLowerCase();
+    },
+    hideTooltip: function(event) {
+      if (event.keyCode != 13) this.showTooltip = false; //Hide the tooltip once the user starts typing
+    }
   }
-}
+});
