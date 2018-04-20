@@ -1,4 +1,13 @@
 
+Vue.component('loginbanner', {
+  props: ['banner'],
+  template: `
+    <transition name="fade">
+      <span v-show="banner.vis" v-bind:class="['banner', banner.type == 0 ? 'success' : 'failure']">{{ banner.msg }}</span>
+    </transition>
+  `
+});
+
 Vue.component('logincontainer', {
   template: `
   <div>
@@ -75,24 +84,31 @@ Vue.component('signupform', {
   `
 });
 
+let BANNER_TYPE = {
+  success: 0,
+  failure: 1
+};
+
 let account = new Vue({
   el: '#loginApp',
   data: {
     loggedUser: undefined, //The current logged in username
     loginData: { //Login menu data
-      username: 'unined',
+      username: undefined,
       password: undefined
     },
     formData: { //Signup menu data
       username: undefined,
       password: undefined
     },
-    loginVis: false //Visibility state of the login menu
+    loginVis: false, //Visibility state of the login menu
+    banner: {
+      vis: false,
+      type: BANNER_TYPE.success,
+      msg: undefined
+    }
   },
   methods: {
-    test23: function() {
-      console.log('asdasdasd');
-    },
     //Gets the logged in username based on token (Called on pageload)
     authorizeToken: function() {
       this.$http({
@@ -155,9 +171,20 @@ let account = new Vue({
         body: {username: this.formData.username, password: this.formData.password}
       }).then(function(response) {
         this.closeSignUpForm();
+        this.showBanner(BANNER_TYPE.success, `Account ${this.formData.username} created`)
       }, function(response) {
+        this.showBanner(BANNER_TYPE.failure, response.body);
         console.log(response);
       });
+    },
+    showBanner: function(type, msg) {
+      this.banner.vis = true;
+      this.banner.type = type;
+      this.banner.msg = msg;
+      let banner = this.banner;
+      setTimeout(function() {
+        banner.vis = false;
+      }, 3000);
     }
   }
 });
