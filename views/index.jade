@@ -14,21 +14,24 @@ html
     script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
     script(src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js")
     script(src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0")
+    script(type="text/javascript" src="/scripts/global-components/tooltip.js")
   body
     div#loginApp
       loginbanner(v-bind:banner="banner")
       logincontainer
-        loginnav(slot="login-nav" v-bind:user="loggedUser" v-bind:login-click="toggleLoginMenu" v-bind:signup-click="openSignUpForm" v-bind:signout-click="signOut")
+        loginnav(slot="login-nav" v-bind:user="loggedUser" @login:click="toggleLoginMenu" @signup:click="openSignUpForm" @signout:click="signOut")
         loginmenu(slot="login-menu" v-bind:enabled="loginVis")
-          loginform(slot="login-form" v-bind:form-submit="loginSubmit" v-bind:login-data="loginData")
+          loginform(slot="login-form" v-bind:login-data="loginData" @form:submit="loginSubmit" @user:input="loginData.username = $event" @pass:input="loginData.password = $event")
         signupmenu(slot="signup-menu")
-          signupform(slot="signup-form" v-bind:form-submit="signupSubmit" v-bind:form-data="formData" v-bind:cancel-click="closeSignUpForm")
+          signupform(slot="signup-form" v-bind:form-data="formData" @form:submit="signupSubmit" @cancel:click="closeSignUpForm" @user:input="formData.username = $event" @pass:input="formData.password = $event")
+            tooltip(slot="user-tooltip" v-bind:show="tooltips.username.show" v-bind:message="tooltips.username.message" @tooltip:hide="tooltips.username.show = false")
+            tooltip(slot="pass-tooltip" v-bind:show="tooltips.password.show" v-bind:message="tooltips.password.message" @tooltip:hide="tooltips.password.show = false")
     div#searchApp.center
       h1 Airport Lookup
       form(v-on:submit.prevent="searchSubmit" style="margin: 0")
         div.textbox-container
           input#icaoTxt.main-textbox(type="text" v-model.trim="icao" v-on:keyup="hideTooltip" placeholder="Enter Airport ICAO.." autocomplete="off")
-          tooltip(v-bind:show="showTooltip" v-bind:message="tooltipMsg")
+          tooltip(v-bind:show="tooltip.show" v-bind:message="tooltip.message" @tooltip:hide="tooltip.show = false")
         input#searchBtn.button.btn-primary(type="submit" value="Search")
     span.footnote(style="left: 0") Kyle Lamb
     span.footnote(style="right: 0") All airport & weather information sourced from the CheckWX API

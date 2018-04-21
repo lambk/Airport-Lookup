@@ -3,7 +3,7 @@ Vue.component('loginbanner', {
   props: ['banner'],
   template: `
     <transition name="fade">
-      <span v-show="banner.vis" v-bind:class="['banner', banner.type == 0 ? 'success' : 'failure']">{{ banner.msg }}</span>
+      <span v-show="banner.show" v-bind:class="['banner', banner.type == 0 ? 'success' : 'failure']">{{ banner.message }}</span>
     </transition>
   `
 });
@@ -19,16 +19,27 @@ Vue.component('logincontainer', {
 });
 
 Vue.component('loginnav', {
-  props: ['user', 'loginClick', 'signupClick', 'signoutClick'],
+  props: ['user'],
   template: `
     <div class="login-controls">
-      <a class="link" v-show="user == undefined" v-on:click="loginClick">Log In</a>
+      <a class="link" v-show="user == undefined" @click="onLoginClick">Log In</a>
       <a class="link" v-show="user != undefined">{{ user }}</a>
       <span style="margin: 0 3px">|</span>
-      <a class="link" v-show="user == undefined" v-on:click="signupClick">Sign Up</a>
-      <a class="link" v-show="user != undefined" v-on:click="signoutClick">Sign Out</a>
+      <a class="link" v-show="user == undefined" @click="onSignupClick">Sign Up</a>
+      <a class="link" v-show="user != undefined" @click="onSignoutClick">Sign Out</a>
     </div>
-  `
+  `,
+  methods: {
+    onLoginClick: function(e) {
+      this.$emit('login:click');
+    },
+    onSignupClick: function(e) {
+      this.$emit('signup:click');
+    },
+    onSignoutClick: function(e) {
+      this.$emit('signout:click');
+    }
+  }
 });
 
 Vue.component('loginmenu', {
@@ -46,16 +57,27 @@ Vue.component('loginmenu', {
 });
 
 Vue.component('loginform', {
-  props: ['formSubmit', 'loginData'],
+  props: ['loginData'],
   template: `
-    <form style="margin: 0" v-on:submit.prevent="formSubmit">
+    <form style="margin: 0" @submit.prevent="onFormSubmit">
       <h2>Username</h2>
-      <input type="text" class="text-field" v-model="loginData.username" />
+      <input type="text" class="text-field" :value="loginData.username" @input="onUserInput" />
       <h2 style="margin-top: 15px">Password</h2>
-      <input type="password" class="text-field" v-model="loginData.password" />
+      <input type="password" class="text-field" :value="loginData.password" @input="onPassInput" />
       <input type="submit" class="button" value="Login" style="margin-top: 15px" />
     </form>
-  `
+  `,
+  methods: {
+    onUserInput: function(e) {
+      this.$emit('user:input', e.target.value);
+    },
+    onPassInput: function(e) {
+      this.$emit('pass:input', e.target.value);
+    },
+    onFormSubmit: function(e) {
+      this.$emit('form:submit');
+    }
+  }
 });
 
 Vue.component('signupmenu', {
@@ -71,17 +93,33 @@ Vue.component('signupmenu', {
 });
 
 Vue.component('signupform', {
-  props: ['formSubmit', 'formData', 'cancelClick'],
+  props: ['formData'],
   template: `
-    <form v-on:submit.prevent="formSubmit">
+    <form @submit.prevent="onFormSubmit">
       <h2 style="margin-top: 15px">Username</h2>
-      <input type="text" class="text-field" v-model="formData.username" />
+      <input type="text" class="text-field" v-bind:value="formData.username" @input="onUserInput($event)" />
+      <slot name="user-tooltip"></slot>
       <h2 style="margin-top: 15px">Password</h2>
-      <input type="password" class="text-field" v-model="formData.password" />
-      <input type="button" class="button button-cancel" value="Cancel" v-on:click="cancelClick" />
+      <input type="password" class="text-field" v-bind:value="formData.password" @input="onPassInput($event)" />
+      <slot name="pass-tooltip"></slot>
+      <input type="button" class="button button-cancel" value="Cancel" @click="onCancelClick" />
       <input type="submit" class="button" value="Create" style="margin-top: 20px; margin-left: 30px" />
     </form>
-  `
+  `,
+  methods: {
+    onUserInput: function(e) {
+      this.$emit('user:input', e.target.value);
+    },
+    onPassInput: function(e) {
+      this.$emit('pass:input', e.target.value);
+    },
+    onCancelClick: function(e) {
+      this.$emit('cancel:click');
+    },
+    onFormSubmit: function(e) {
+      this.$emit('form:submit');
+    }
+  }
 });
 
 let BANNER_TYPE = {
@@ -92,6 +130,7 @@ let BANNER_TYPE = {
 let account = new Vue({
   el: '#loginApp',
   data: {
+    test: 'saduhasdasd',
     loggedUser: undefined, //The current logged in username
     loginData: { //Login menu data
       username: undefined,
@@ -101,11 +140,21 @@ let account = new Vue({
       username: undefined,
       password: undefined
     },
+    tooltips: {
+      username: {
+        show: true,
+        message: 'hello'
+      },
+      password: {
+        show: true,
+        message: 'there'
+      }
+    },
     loginVis: false, //Visibility state of the login menu
     banner: {
-      vis: false,
+      show: false,
       type: BANNER_TYPE.success,
-      msg: undefined
+      message: undefined
     }
   },
   methods: {
@@ -148,7 +197,7 @@ let account = new Vue({
         this.loggedUser = response.body;
         this.loginVis = false; //Close the login menu once logged in
       }, function(response) { //Failed login
-        if (response.status == 401) $('#loginMenu').effect('shake', {distance: 8, times: 2}); this.loginData.password = undefined;
+        if (response.status == 401) $('.login-menu').effect('shake', {distance: 8, times: 2}); this.loginData.password = undefined;
         console.log(response);
       });
     },
@@ -178,12 +227,12 @@ let account = new Vue({
       });
     },
     showBanner: function(type, msg) {
-      this.banner.vis = true;
+      this.banner.show = true;
       this.banner.type = type;
-      this.banner.msg = msg;
+      this.banner.message = msg;
       let banner = this.banner;
       setTimeout(function() {
-        banner.vis = false;
+        banner.show = false;
       }, 3000);
     }
   }
