@@ -97,10 +97,10 @@ Vue.component('signupform', {
   template: `
     <form @submit.prevent="onFormSubmit">
       <h2 style="margin-top: 15px">Username</h2>
-      <input type="text" class="text-field" v-bind:value="formData.username" @input="onUserInput($event)" />
+      <input type="text" class="text-field" v-bind:value="formData.username" @keyup="onUserKeyup($event)" @input="onUserInput($event)" />
       <slot name="user-tooltip"></slot>
       <h2 style="margin-top: 15px">Password</h2>
-      <input type="password" class="text-field" v-bind:value="formData.password" @input="onPassInput($event)" />
+      <input type="password" class="text-field" v-bind:value="formData.password" @keyup="onPassKeyup($event)" @input="onPassInput($event)" />
       <slot name="pass-tooltip"></slot>
       <input type="button" class="button button-cancel" value="Cancel" @click="onCancelClick" />
       <input type="submit" class="button" value="Create" style="margin-top: 20px; margin-left: 30px" />
@@ -112,6 +112,16 @@ Vue.component('signupform', {
     },
     onPassInput: function(e) {
       this.$emit('pass:input', e.target.value);
+    },
+    onUserKeyup: function(e) {
+      if (e.keyCode != 13 && e.keyCode != 9) {
+        this.$emit('user:keyup');
+      }
+    },
+    onPassKeyup: function(e) {
+      if (e.keyCode != 13 && e.keyCode != 9) {
+        this.$emit('pass:keyup');
+      }
     },
     onCancelClick: function(e) {
       this.$emit('cancel:click');
@@ -133,28 +143,28 @@ let account = new Vue({
     test: 'saduhasdasd',
     loggedUser: undefined, //The current logged in username
     loginData: { //Login menu data
-      username: undefined,
-      password: undefined
+      username: '',
+      password: ''
     },
     formData: { //Signup menu data
-      username: undefined,
-      password: undefined
+      username: '',
+      password: ''
     },
     tooltips: {
       username: {
-        show: true,
-        message: 'hello'
+        show: false,
+        message: ''
       },
       password: {
-        show: true,
-        message: 'there'
+        show: false,
+        message: ''
       }
     },
     loginVis: false, //Visibility state of the login menu
     banner: {
       show: false,
       type: BANNER_TYPE.success,
-      message: undefined
+      message: ''
     }
   },
   methods: {
@@ -172,16 +182,14 @@ let account = new Vue({
     //Opens and closes the login menu. Username and password data is cleared on opening
     toggleLoginMenu: function() {
       this.loginVis = !this.loginVis;
-      if (this.loginVis) {
-        this.loginData.username = undefined;
-        this.loginData.password = undefined;
-      }
+      this.loginData.username = '';
+      this.loginData.password = '';
     },
     //Opens the signup modal dialog
     openSignUpForm: function() {
       $('.signup-menu').dialog('open');
-      this.formData.username = undefined;
-      this.formData.password = undefined;
+      this.formData.username = '';
+      this.formData.password = '';
     },
     //Closes the signup modal dialog
     closeSignUpForm: function() {
@@ -197,7 +205,7 @@ let account = new Vue({
         this.loggedUser = response.body;
         this.loginVis = false; //Close the login menu once logged in
       }, function(response) { //Failed login
-        if (response.status == 401) $('.login-menu').effect('shake', {distance: 8, times: 2}); this.loginData.password = undefined;
+        if (response.status == 401) $('.login-menu').effect('shake', {distance: 8, times: 2}); this.loginData.password = '';
         console.log(response);
       });
     },
@@ -214,17 +222,32 @@ let account = new Vue({
     },
     //Sends the form data to the server to create a new user account
     signupSubmit: function() {
-      this.$http({
-        method: 'POST',
-        url: '/users',
-        body: {username: this.formData.username, password: this.formData.password}
-      }).then(function(response) {
-        this.closeSignUpForm();
-        this.showBanner(BANNER_TYPE.success, `Account ${this.formData.username} created`)
-      }, function(response) {
-        this.showBanner(BANNER_TYPE.failure, response.body);
-        console.log(response);
-      });
+      let valid = true;
+      if (!/^[A-Za-z0-9]{3,50}$/.test(this.formData.username)) {
+        valid = false;
+        this.tooltips.username.message = 'Username must be alphanumeric with between 3 & 50 characters';
+        this.tooltips.username.show = true;
+      }
+      if ( valid == true || this.formData.password.length > 0) { //If the username was valid OR the password input has input
+        if(this.formData.password.length < 8) {
+          valid = false;
+          this.tooltips.password.message = "Password must be 8 or more characters";
+          this.tooltips.password.show = true;
+        }
+      }
+      if (valid) {
+        this.$http({
+          method: 'POST',
+          url: '/users',
+          body: {username: this.formData.username, password: this.formData.password}
+        }).then(function(response) {
+          this.closeSignUpForm();
+          this.showBanner(BANNER_TYPE.success, `Account ${this.formData.username} created`)
+        }, function(response) {
+          this.showBanner(BANNER_TYPE.failure, response.body);
+          console.log(response);
+        });
+      }
     },
     showBanner: function(type, msg) {
       this.banner.show = true;
