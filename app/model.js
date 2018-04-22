@@ -40,8 +40,8 @@ exports.removeUserToken = function(token, done, failure) {
   })
 };
 
-exports.readFavourites = function(username, done, failure) {
-  db.get_pool().query('SELECT airport FROM user_airport_favourites where username=?', username, (err, rows) => {
+exports.readFavourites = function(token, done, failure) {
+  db.get_pool().query('SELECT f.airport FROM user_airport_favourites f JOIN users u ON f.username = u.username where u.token=?', token, (err, rows) => {
     if (err) return failure(500, 'Error reading user favourites');
     return done(rows);
   });

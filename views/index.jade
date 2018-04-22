@@ -18,6 +18,9 @@ html
   body
     div#loginApp
       loginbanner(v-bind:banner="banner")
+      transition(name="fall")
+        span.favourites-list(v-show="favourites.length > 0")
+          span.favourite-item.link(v-for="airport in favourites" @click="redirectToAirport(airport)") {{ airport }}
       logincontainer
         loginnav(slot="login-nav" v-bind:user="loggedUser" @login:click="toggleLoginMenu" @signup:click="openSignUpForm" @signout:click="signOut")
         loginmenu(slot="login-menu" v-bind:enabled="loginVis")

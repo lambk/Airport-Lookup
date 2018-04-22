@@ -140,8 +140,8 @@ let BANNER_TYPE = {
 let account = new Vue({
   el: '#loginApp',
   data: {
-    test: 'saduhasdasd',
     loggedUser: undefined, //The current logged in username
+    favourites: [],
     loginData: { //Login menu data
       username: '',
       password: ''
@@ -167,16 +167,35 @@ let account = new Vue({
       message: ''
     }
   },
+  watch: {
+    loggedUser: function(value) {
+      if (value == undefined) {
+        this.favourites = [];
+      } else {
+        this.fetchFavourites();
+      }
+    }
+  },
   methods: {
     //Gets the logged in username based on token (Called on pageload)
     authorizeToken: function() {
       this.$http({
-        method: 'POST',
+        method: 'GET',
         url: '/auth'
       }).then(function(response) { //Success
         this.loggedUser = response.body;
       }, function(response) { //Error - also called if no token was passed
         this.loggedUser = undefined;
+      });
+    },
+    fetchFavourites: function() {
+      this.$http({
+        method: 'GET',
+        url: '/users/favourites'
+      }).then(function(response) {
+        this.favourites = response.body;
+      }, function(response) {
+        console.log(response);
       });
     },
     //Opens and closes the login menu. Username and password data is cleared on opening
@@ -257,6 +276,9 @@ let account = new Vue({
       setTimeout(function() {
         banner.show = false;
       }, 3000);
+    },
+    redirectToAirport: function(airport) {
+      window.location = '/airport/' + airport;
     }
   }
 });
