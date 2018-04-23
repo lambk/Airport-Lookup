@@ -97,4 +97,40 @@ exports.getFavourites = function(req, res) {
   }, (code, msg) => {
     res.status(code).send(msg);
   });
-}
+};
+
+exports.addFavourite = function(req, res) {
+  let token = req.cookies.token;
+  let icao = req.body.icao;
+  let username;
+  if (icao == undefined) return res.status(400).send('No icao provided');
+  new Promise((resolve, reject) => {
+    model.readUserByToken(token, (rows) => {
+      resolve(rows);
+    }, (code, msg) => {
+      return res.status(code).send(msg);
+    });
+  }).then((rows) => {
+    if (rows.length == 0) return res.status(401).send('Invalid token');
+    username = rows[0].username;
+    return new Promise((resolve, reject) => {
+      model.readFavourites(token, (rows) => {
+        resolve(rows);
+      }, (code, msg) => {
+        return res.status(code).send(msg);
+      });
+    });
+  }).then((result) => {
+    result.forEach((row) => {
+      if (row.airport == icao) return res.status(500).send('Airport is already a favourite');
+    });
+    if (result.length >= 5) return res.status(500).send('User has the maximum number of favourites');
+    return new Promise((resolve, reject) => {
+      model.addFavourite(username, icao, (rows) => {
+        return res.status(200).send(`${icao} added as favourite`);
+      }, (code, msg) => {
+        return res.status(code).send(msg);
+      });
+    });
+  });
+};
