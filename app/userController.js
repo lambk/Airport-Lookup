@@ -1,9 +1,37 @@
-const model = require('./model.js');
+const userModel = require('./userModel.js');
 const crypto = require('crypto');
 
 /*
+ * Checks that the provided token matches a user in the datbase.
+ * If it does, the username is returned, if not, the promise is rejected.
+ */
+function verifyToken(token) {
+  return new Promise((resolve, reject) => {
+    userModel.readUserByToken(token, (rows) => { //Fetching users with a matching login token
+      if (rows.length == 0) return reject(); //The token doesn't match any tokens in the database (Likely for a user that has had the token updated)
+      resolve(rows[0].username); //Pass the username of the logged in user
+    }, (code, msg) => {
+      return reject();
+    });
+  });
+}
+
+/*
+ * Verifies the login token. If there is a user with a matching token, the username is sent to the caller, else the token cookie is cleared.
+ */
+exports.authorize = function(req, res) {
+  if (req.cookies.token == undefined) return res.status(401).send('No token');
+  verifyToken(req.cookies.token).then((username) => {
+    return res.status(200).send(username);
+  }).catch((result) => {
+    res.clearCookie('token');
+    return res.status(401).send('Invalid token');
+  });
+};
+
+/*
  * Creates a new user with the given username and password.
- * A random user salt is also generated for the new account
+ * A random user salt is also generated for the new account.
  */
 exports.createUser = function(req, res) {
   /* Input validation */
@@ -20,26 +48,9 @@ exports.createUser = function(req, res) {
     let salt = salt_obj.toString('hex');
     const pw_hasher = crypto.createHash('sha256');
     let pw = pw_hasher.update(req.body.password + salt).digest('hex'); //Hashing the password + salt
-    model.addUser([req.body.username, pw, salt], (code, msg) => {
+    userModel.addUser([req.body.username, pw, salt], (code, msg) => {
       res.status(code).send(msg);
     });
-  });
-};
-
-exports.authorize = function(req, res) {
-  if (req.cookies.token == undefined) return res.status(401).send('No token');
-  new Promise((resolve, reject) => {
-    model.readUserByToken(req.cookies.token, (result) => { //Fetching users with a matching login token
-      resolve(result);
-    }, (code, msg) => {
-      res.status(code).send(msg);
-    });
-  }).then((rows) => {
-    if (rows.length == 0) { //The token doesn't match any tokens in the database (Likely for a user that has had the token updated)
-      res.clearCookie('token');
-      return res.status(401).send('No matching token');
-    }
-    return res.status(200).send(rows[0].username); //Return the username of the logged in user
   });
 };
 
@@ -52,7 +63,7 @@ exports.login = function(req, res) {
   if (req.body.username == undefined) return res.status(400).send('No username provided');
   if (req.body.password == undefined) return res.status(400).send('No password provided');
   new Promise((resolve, reject) => {
-    model.readUser(req.body.username, (result) => {
+    userModel.readUser(req.body.username, (result) => {
       resolve(result);
     }, (code, msg) => {
       res.status(code).send(msg);
@@ -70,7 +81,7 @@ exports.login = function(req, res) {
       }
     });
   }).then((token_obj) => {
-    model.addUserToken([token_obj.toString('hex'), req.body.username], (token) => {
+    userModel.addUserToken([token_obj.toString('hex'), req.body.username], (token) => {
       res.cookie('token', token, {maxAge: 360000, httpOnly: false}); //Issuing the login token
       res.status(200).send(req.body.username);
     }, (code, msg) => {
@@ -79,9 +90,12 @@ exports.login = function(req, res) {
   });
 };
 
+/*
+ * Removes the token from the database, and clears the token cookie.
+ */
 exports.logout = function(req, res) {
   if (req.cookies.token == undefined) return res.status(400).send('No token provided');
-  model.removeUserToken(req.cookies.token, (code, msg) => {
+  userModel.removeUserToken(req.cookies.token, (code, msg) => {
     res.clearCookie('token'); //Revoking the login token
     res.status(code).send(msg);
   }, (code, msg) => {
@@ -89,48 +103,71 @@ exports.logout = function(req, res) {
   });
 };
 
+/*
+ * Fetches a list of icao codes for airports that are on the users favourite list.
+ * Requires the login token to be verified.
+ */
 exports.getFavourites = function(req, res) {
   let token = req.cookies.token;
-  model.readFavourites(token, (rows) => {
-    let favourites = rows.map((row) => row.airport);
-    res.status(200).send(favourites);
-  }, (code, msg) => {
-    res.status(code).send(msg);
-  });
+  verifyToken(token).then((username) => {
+    userModel.readFavourites(username, (rows) => {
+      let favourites = rows.map((row) => row.airport);
+      return res.status(200).send(favourites);
+    }, (code, msg) => {
+      return res.status(code).send(msg);
+    });
+  }).catch(() => res.status(401).send('Invalid token'));
 };
 
+/*
+ * Adds the icao given in the request body to the users favourites list in the database.
+ * If the airport is already in the users favourites, or the user already has atleast 5 favourites
+ * the airport is not added and an error is sent to the caller.
+ * Requires the login token to be verified.
+ */
 exports.addFavourite = function(req, res) {
   let token = req.cookies.token;
   let icao = req.body.icao;
   let username;
   if (icao == undefined) return res.status(400).send('No icao provided');
-  new Promise((resolve, reject) => {
-    model.readUserByToken(token, (rows) => {
-      resolve(rows);
-    }, (code, msg) => {
-      return res.status(code).send(msg);
-    });
-  }).then((rows) => {
-    if (rows.length == 0) return res.status(401).send('Invalid token');
-    username = rows[0].username;
+  verifyToken(token).catch((result) => res.status(401).send('Invalid token'))
+  .then((result) => {
+    username = result;
     return new Promise((resolve, reject) => {
-      model.readFavourites(token, (rows) => {
+      userModel.readFavourites(username, (rows) => {
         resolve(rows);
       }, (code, msg) => {
         return res.status(code).send(msg);
       });
     });
   }).then((result) => {
-    result.forEach((row) => {
-      if (row.airport == icao) return res.status(500).send('Airport is already a favourite');
-    });
+    for (let i=0; i<result.length; i++) {
+      if (result[i].airport == icao) return res.status(500).send('Airport is already a favourite');
+    }
     if (result.length >= 5) return res.status(500).send('User has the maximum number of favourites');
     return new Promise((resolve, reject) => {
-      model.addFavourite(username, icao, (rows) => {
-        return res.status(200).send(`${icao} added as favourite`);
+      userModel.addFavourite(username, icao, (rows) => {
+        return res.status(201).send(`${icao} added to favourites`);
       }, (code, msg) => {
         return res.status(code).send(msg);
       });
     });
   });
+};
+
+/*
+ * Removes the icao given in the path from the users favourites list. No checking for prior existence of the airport
+ * in the users favourites list is made.
+ * Requires the login token to be verified.
+ */
+exports.removeFavourite = function(req, res) {
+  let token = req.cookies.token;
+  let icao = req.params.icao;
+  verifyToken(token).then((username) => {
+    userModel.removeFavourite(username, icao, (result) => {
+      return res.status(200).send(`${icao} removed from favourites`);
+    }, (code, msg) => {
+      return res.status(code).send(msg);
+    });
+  }).catch(() => res.status(401).send('Invalid token'));
 };

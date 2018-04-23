@@ -10,15 +10,17 @@ module.exports = function(app, root) {
 
   app.get('/invalid-airport', controller.loadInvalidPage);
 
+  app.get('/auth', userController.authorize);
+
   app.post('/users', userController.createUser);
 
   app.post('/login', userController.login);
 
   app.post('/logout', userController.logout);
 
-  app.get('/auth', userController.authorize);
-
   app.get('/users/favourites', userController.getFavourites);
 
   app.post('/users/favourites', userController.addFavourite);
+
+  app.delete('/users/favourites/:icao', userController.removeFavourite);
 }
