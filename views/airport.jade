@@ -21,7 +21,7 @@ html
       .link {
         text-shadow: 1px 1px black;
       }
-  body(ng-app="account" ng-controller="account-ctrl")
+  body
     div#loginApp
       loginbanner(v-bind:banner="banner")
       logincontainer
@@ -32,8 +32,10 @@ html
           signupform(slot="signup-form" v-bind:form-data="formData" @form:submit="signupSubmit" @cancel:click="closeSignUpForm" @user:input="formData.username = $event" @pass:input="formData.password = $event")
             tooltip(slot="user-tooltip" v-bind:show="tooltips.username.show" v-bind:message="tooltips.username.message" @tooltip:hide="tooltips.username.show = false")
             tooltip(slot="pass-tooltip" v-bind:show="tooltips.password.show" v-bind:message="tooltips.password.message" @tooltip:hide="tooltips.password.show = false")
+      div.favourite-container
+        input.favouriteBtn(type="button" v-bind:disabled="loggedUser == undefined" v-bind:class="{favourite: isFavourite}" @click="onFavouriteToggle()" value="Favourite")
+        tooltip(v-bind:show="tooltips.favourite.show" v-bind:message="tooltips.favourite.message" @tooltip:hide="tooltips.favourite.show = false")
     div.page
-      input.favouriteBtn(type="button" ng-disabled="loggedUser == undefined" ng-class="{favourite: favourites != undefined && favourites.indexOf(icao) != -1}" ng-click="addFavourite()" value="Favourite")
       h1#title.dark #{icao}
       div.main-content
         div#searchApp.search-container

@@ -158,6 +158,10 @@ let account = new Vue({
       password: {
         show: false,
         message: ''
+      },
+      favourite: {
+        show: false,
+        message: ''
       }
     },
     loginVis: false, //Visibility state of the login menu
@@ -173,6 +177,19 @@ let account = new Vue({
         this.favourites = [];
       } else {
         this.fetchFavourites();
+      }
+    }
+  },
+  computed: {
+    isFavourite: function() {
+      if (location.pathname.split('/').length < 3) return false;
+      return this.favourites.indexOf(location.pathname.split('/')[2].toUpperCase()) != -1;
+    },
+    onFavouriteToggle: function() {
+      if (this.isFavourite) {
+        return this.removeFavourite;
+      } else {
+        return this.addFavourite;
       }
     }
   },
@@ -279,6 +296,35 @@ let account = new Vue({
     },
     redirectToAirport: function(airport) {
       window.location = '/airport/' + airport;
+    },
+    addFavourite: function() {
+      let icao = location.pathname.split('/')[2].toUpperCase();
+      this.$http({
+        method: 'POST',
+        url: '/users/favourites',
+        body: {icao: icao}
+      }).then((response) => {
+        this.favourites.push(icao);
+      }, (response) => {
+        if (response.body = 'User has the maximum number of favourites') {
+          this.tooltips.favourite.message = 'Unfavourite another airport first'
+          this.tooltips.favourite.show = true;
+        }
+      });
+    },
+    removeFavourite: function() {
+      let icao = location.pathname.split('/')[2].toUpperCase();
+      this.$http({
+        method: 'DELETE',
+        url: '/users/favourites/' + icao
+      }).then((response) => {
+        let index = this.favourites.indexOf(icao);
+        if (index > -1) {
+          this.favourites.splice(index, 1);
+        }
+      }, (response) => {
+        console.log(response);
+      });
     }
   }
 });
