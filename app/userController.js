@@ -82,7 +82,7 @@ exports.login = function(req, res) {
     });
   }).then((token_obj) => {
     userModel.addUserToken([token_obj.toString('hex'), req.body.username], (token) => {
-      res.cookie('token', token, {maxAge: 360000, httpOnly: false}); //Issuing the login token
+      res.cookie('token', token, {maxAge: 1200000, httpOnly: false}); //Issuing the login token
       res.status(200).send(req.body.username);
     }, (code, msg) => {
       res.status(code).send(msg);
