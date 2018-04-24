@@ -191,6 +191,10 @@ let account = new Vue({
       } else {
         return this.addFavourite;
       }
+    },
+    favouriteUrl: function() {
+      if (this.isFavourite) return '../resources/star-filled.png';
+      return '../resources/star-outline.png';
     }
   },
   methods: {

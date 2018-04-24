@@ -124,29 +124,9 @@ h2 {
   position: absolute;
   top: 5px;
   left: 10px;
-  width: 200px;
   text-align: left;
 }
 
-.favouriteBtn {
-  padding: 5px 10px;
-  border: 1px solid black;
-  border-radius: 6px;
-  color: #ccc;
-  font-size: 14px;
-  background: #43484F;
-  cursor: pointer;
-}
-
-.favouriteBtn:hover {
-  border-color: white;
-  color: white;
-}
-
-.favouriteBtn:disabled {
-  opacity: 0.5;
-}
-
 .favourite {
-  background: gold;
+  cursor: pointer;
 }

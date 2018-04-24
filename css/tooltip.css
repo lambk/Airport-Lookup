@@ -23,6 +23,8 @@
   border-radius: 6px;
   border: 1px solid #d55;
   background: #d55;
+
+  white-space: nowrap;
 }
 
 .tooltip-container:before {
