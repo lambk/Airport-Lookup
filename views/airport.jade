@@ -56,17 +56,35 @@ html
             | Longitude: 
             span#longitude.field-seperate #{longitude}
             br
-            | City: 
-            span.field-seperate #{city}
-            br
+            if elevation
+              | Elevation:
+              span.field-seperate #{elevation}
+              br
+            if magnetic
+              | Magnetic Variation:
+              span.field-seperate #{magnetic}
+              br
+            if city
+              | City: 
+              span.field-seperate #{city}
+              br
+            if state
+              | State:
+              span.field-seperate #{state}
+              br
             | Country: 
             span.field-seperate #{country}
             br
             | Timezone: 
             span.field-seperate #{timezone}
             br
-            | Status: 
-            span.field-seperate #{status}
+            if status
+              | Status: 
+              span.field-seperate #{status}
+              br
+            if usage
+              | Usage:
+              span.field-seperate #{usage}
           div.map-container.containers
             div#google-map
             input#recenterBtn.button(type="button" value="Recenter")

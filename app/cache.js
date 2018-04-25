@@ -78,13 +78,19 @@ exports.handleAirportCache = function(result, api_call) {
           longitude: {
             decimal: rows[0].longitude
           },
+          elevation: {
+            feet: rows[0].elevation
+          },
+          magnetic_variation: rows[0].magnetic,
           city: rows[0].city,
+          state: rows[0].state,
           country: rows[0].country,
           timezone: {
             tzid: rows[0].timezone_tzid,
             gmt: rows[0].timezone_gmt
           },
-          status: rows[0].status
+          status: rows[0].status,
+          useage: rows[0].usage
         };
         resolve(formatted_data);
       }
@@ -168,8 +174,8 @@ function deleteMetarCache(icao) {
  */
 function addAirportCache(api_data) {
   let sql_data = [
-    api_data.icao, api_data.name, api_data.latitude.decimal, api_data.longitude.decimal,
-    api_data.city, api_data.country, api_data.timezone.tzid, api_data.timezone.gmt, api_data.status
+    api_data.icao, api_data.name, api_data.latitude.decimal, api_data.longitude.decimal, api_data.elevation.feet, api_data.magnetic_variation,
+    api_data.city, api_data.state, api_data.country, api_data.timezone.tzid, api_data.timezone.gmt, api_data.status, api_data.useage
   ];
   return new Promise(function(resolve, reject) {
     model.addAirportCache(sql_data, function() {

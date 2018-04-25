@@ -34,9 +34,10 @@ exports.deleteMetarCache = function(icao, done, failure) {
 };
 
 exports.addAirportCache = function(data, done, failure) {
-  db.get_pool().query('INSERT INTO airport_cache (icao, title, latitude, longitude, city, country, timezone_tzid, timezone_gmt, status) \
-  VALUES (?,?,?,?,?,?,?,?,?)', data, function(err, result) {
-    if (err) return failure(500, 'Error inserting into airport cache');
+  db.get_pool().query('INSERT INTO airport_cache (icao, title, latitude, longitude, elevation, magnetic, city, state, country, timezone_tzid, timezone_gmt, `status`, `usage`) \
+  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)', data, function(err, result) {
+    //if (err) return failure(500, 'Error inserting into airport cache');
+    if (err) return failure(500, err);
     console.log(`[CACHE] Airport data added for ${data[0]}`);
     return done(result);
   });

@@ -30,10 +30,14 @@ exports.loadAirportPage = function(req, res) {
         icao: airport.icao + ' - ' + airport.name,
         latitude: airport.latitude.decimal,
         longitude: airport.longitude.decimal,
+        elevation: airport.elevation.feet,
+        magnetic: airport.magnetic_variation,
         city: airport.city,
+        state: airport.state,
         country: airport.country,
         timezone: airport.timezone.tzid + ' (' + airport.timezone.gmt + ' GMT)',
-        status: airport.status
+        status: airport.status,
+        usage: airport.useage
       };
       return airport.icao;
     })
