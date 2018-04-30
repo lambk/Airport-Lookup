@@ -64,7 +64,7 @@ Vue.component('loginform', {
       <input type="text" class="text-field" :value="loginData.username" @input="onUserInput" />
       <h2 style="margin-top: 15px">Password</h2>
       <input type="password" class="text-field" :value="loginData.password" @input="onPassInput" />
-      <input type="submit" class="button" value="Login" style="margin-top: 15px" />
+      <input type="submit" class="button" v-bind:disabled="loginData.buttonDisabled" value="Login" style="margin-top: 15px" />
     </form>
   `,
   methods: {
@@ -103,7 +103,7 @@ Vue.component('signupform', {
       <input type="password" class="text-field" v-bind:value="formData.password" @keyup="onPassKeyup($event)" @input="onPassInput($event)" />
       <slot name="pass-tooltip"></slot>
       <input type="button" class="button button-cancel" value="Cancel" @click="onCancelClick" />
-      <input type="submit" class="button" value="Create" style="margin-top: 20px; margin-left: 30px" />
+      <input type="submit" class="button" v-bind:disabled="formData.buttonDisabled" value="Create" style="margin-top: 20px; margin-left: 30px" />
     </form>
   `,
   methods: {
@@ -144,11 +144,13 @@ let account = new Vue({
     favourites: [],
     loginData: { //Login menu data
       username: '',
-      password: ''
+      password: '',
+      buttonDisabled: false
     },
     formData: { //Signup menu data
       username: '',
-      password: ''
+      password: '',
+      buttonDisabled: false
     },
     tooltips: {
       username: {
@@ -237,6 +239,7 @@ let account = new Vue({
     },
     //Submits the login data to the server. If successful login, the server registers the client a token cookie
     loginSubmit: function() {
+      this.loginData.buttonDisabled = true;
       this.$http({
         method: 'POST',
         url: '/login',
@@ -247,6 +250,8 @@ let account = new Vue({
       }, function(response) { //Failed login
         if (response.status == 401) $('.login-menu').effect('shake', {distance: 8, times: 2}); this.loginData.password = '';
         console.log(response);
+      }).finally(function() {
+        this.loginData.buttonDisabled = false;
       });
     },
     //Signs the user out. The server clears the token cookie on receiving this request
@@ -276,6 +281,7 @@ let account = new Vue({
         }
       }
       if (valid) {
+        this.formData.buttonDisabled = true;
         this.$http({
           method: 'POST',
           url: '/users',
@@ -286,6 +292,8 @@ let account = new Vue({
         }, function(response) {
           this.showBanner(BANNER_TYPE.failure, response.body);
           console.log(response);
+        }).finally(function() {
+          this.formData.buttonDisabled = false;
         });
       }
     },
