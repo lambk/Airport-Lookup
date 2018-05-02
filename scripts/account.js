@@ -174,6 +174,9 @@ let account = new Vue({
     }
   },
   watch: {
+    /*
+     * Reset the favourites list on logout. Fetch the users favourites on login
+     */
     loggedUser: function(value) {
       if (value == undefined) {
         this.favourites = [];
@@ -183,10 +186,18 @@ let account = new Vue({
     }
   },
   computed: {
+    /*
+     * Returns whether the current icao is within the account's favourite list
+     */
     isFavourite: function() {
       if (location.pathname.split('/').length < 3) return false;
       return this.favourites.indexOf(location.pathname.split('/')[2].toUpperCase()) != -1;
     },
+    /*
+     * Returns the appropriate method to be called when the favourite toggle is pressed
+     * removeFavourite - The airport is currently a favourite
+     * addFavourite - The airport is not currently a favourite
+     */
     onFavouriteToggle: function() {
       if (this.isFavourite) {
         return this.removeFavourite;
@@ -194,6 +205,9 @@ let account = new Vue({
         return this.addFavourite;
       }
     },
+    /*
+     * Returns the image path for the favourite button based on whether the current airport is a favourite
+     */
     favouriteUrl: function() {
       if (this.isFavourite) return '../resources/star-filled.png';
       return '../resources/star-outline.png';
@@ -239,7 +253,7 @@ let account = new Vue({
     },
     //Submits the login data to the server. If successful login, the server registers the client a token cookie
     loginSubmit: function() {
-      this.loginData.buttonDisabled = true;
+      this.loginData.buttonDisabled = true; //Disable further submits while the http request is incomplete
       this.$http({
         method: 'POST',
         url: '/login',
@@ -268,12 +282,13 @@ let account = new Vue({
     //Sends the form data to the server to create a new user account
     signupSubmit: function() {
       let valid = true;
+      //Validate the signup details
       if (!/^[A-Za-z0-9]{3,50}$/.test(this.formData.username)) {
         valid = false;
         this.tooltips.username.message = 'Username must be alphanumeric with between 3 & 50 characters';
         this.tooltips.username.show = true;
       }
-      if ( valid == true || this.formData.password.length > 0) { //If the username was valid OR the password input has input
+      if ( valid == true || this.formData.password.length > 0) { //Check if the username was valid OR the password input has input
         if(this.formData.password.length < 8) {
           valid = false;
           this.tooltips.password.message = "Password must be 8 or more characters";
@@ -281,15 +296,15 @@ let account = new Vue({
         }
       }
       if (valid) {
-        this.formData.buttonDisabled = true;
+        this.formData.buttonDisabled = true; //Disable further submits while the http request is incomplete
         this.$http({
           method: 'POST',
           url: '/users',
           body: {username: this.formData.username, password: this.formData.password}
-        }).then(function(response) {
+        }).then(function(response) { //Successful creation
           this.closeSignUpForm();
           this.showBanner(BANNER_TYPE.success, `Account ${this.formData.username} created`)
-        }, function(response) {
+        }, function(response) { //Unsuccessful creation
           this.showBanner(BANNER_TYPE.failure, response.body);
           console.log(response);
         }).finally(function() {
@@ -302,7 +317,7 @@ let account = new Vue({
       this.banner.type = type;
       this.banner.message = msg;
       let banner = this.banner;
-      setTimeout(function() {
+      setTimeout(function() { //Setup the banner to hide after 3 seconds
         banner.show = false;
       }, 3000);
     },
@@ -310,13 +325,13 @@ let account = new Vue({
       window.location = '/airport/' + airport;
     },
     addFavourite: function() {
-      let icao = location.pathname.split('/')[2].toUpperCase();
+      let icao = location.pathname.split('/')[2].toUpperCase(); //Get the icao from the current path
       this.$http({
         method: 'POST',
         url: '/users/favourites',
         body: {icao: icao}
       }).then((response) => {
-        this.favourites.push(icao);
+        this.favourites.push(icao); //Add the icao to the favourites list
       }, (response) => {
         if (response.body = 'User has the maximum number of favourites') {
           this.tooltips.favourite.message = 'Unfavourite another airport first'
@@ -325,14 +340,14 @@ let account = new Vue({
       });
     },
     removeFavourite: function() {
-      let icao = location.pathname.split('/')[2].toUpperCase();
+      let icao = location.pathname.split('/')[2].toUpperCase(); //Get the icao from the current path
       this.$http({
         method: 'DELETE',
         url: '/users/favourites/' + icao
       }).then((response) => {
         let index = this.favourites.indexOf(icao);
         if (index > -1) {
-          this.favourites.splice(index, 1);
+          this.favourites.splice(index, 1); //Remove the icao from the favourites list
         }
       }, (response) => {
         console.log(response);
