@@ -4,7 +4,7 @@ const crypto = require('crypto');
 exports.addUser = function(data, done) {
   db.get_pool().query('INSERT INTO users(username, password, salt) VALUES(?,?,?)', data, (err, result) => {
     if (err) {
-      if (err.code == 'ER_DUP_ENTRY') return done(500, `Account ${data[0]} already exists`);
+      if (err.code == 'ER_DUP_ENTRY') return done(500, `Username ${data[0]} is already taken`);
       return done(500, 'Error inserting into users');
     }
     return done(201, `Account ${data[0]} created`);

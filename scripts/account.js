@@ -306,7 +306,6 @@ let account = new Vue({
           this.showBanner(BANNER_TYPE.success, `Account ${this.formData.username} created`)
         }, function(response) { //Unsuccessful creation
           this.showBanner(BANNER_TYPE.failure, response.body);
-          console.log(response);
         }).finally(function() {
           this.formData.buttonDisabled = false;
         });
