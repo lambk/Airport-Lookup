@@ -31,7 +31,7 @@ exports.loadAirportPage = function(req, res) {
         latitude: airport.latitude.decimal,
         longitude: airport.longitude.decimal,
         elevation: airport.elevation.feet,
-        magnetic: airport.magnetic_variation,
+        magnetic: airport.magnetic_variation.position,
         city: airport.city,
         state: airport.state,
         country: airport.country,

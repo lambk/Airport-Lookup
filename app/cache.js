@@ -81,7 +81,9 @@ exports.handleAirportCache = function(result, api_call) {
           elevation: {
             feet: rows[0].elevation
           },
-          magnetic_variation: rows[0].magnetic,
+          magnetic_variation: {
+            position: rows[0].magnetic
+          },
           city: rows[0].city,
           state: rows[0].state,
           country: rows[0].country,
@@ -174,7 +176,7 @@ function deleteMetarCache(icao) {
  */
 function addAirportCache(api_data) {
   let sql_data = [
-    api_data.icao, api_data.name, api_data.latitude.decimal, api_data.longitude.decimal, api_data.elevation.feet, api_data.magnetic_variation,
+    api_data.icao, api_data.name, api_data.latitude.decimal, api_data.longitude.decimal, api_data.elevation.feet, api_data.magnetic_variation.position,
     api_data.city, api_data.state, api_data.country, api_data.timezone.tzid, api_data.timezone.gmt, api_data.status, api_data.useage
   ];
   return new Promise(function(resolve, reject) {
